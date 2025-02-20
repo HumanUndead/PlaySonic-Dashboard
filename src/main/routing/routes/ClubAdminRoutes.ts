@@ -1,7 +1,7 @@
 import { ClubAdminWrapper } from "@presentation/pages/clubAdmin/ClubAdminWrapper";
 import { Route } from "./Routes";
 import { lazy } from "react";
-import ReservationListWrapper from "@presentation/pages/reservation";
+import ReservationClubListWrapper from "@presentation/pages/clubAdmin/reservation";
 
 const MyCourtsWrapper = lazy(
   () => import("@presentation/pages/clubAdmin/myCourts")
@@ -55,7 +55,7 @@ const ClubAdminRoutes: Route = {
     {
       path: "myreservations/list",
       title: "SIDEBAR-My-Reservations",
-      component: ReservationListWrapper,
+      component: ReservationClubListWrapper,
       role: [],
       breadcrumbs: [],
     },

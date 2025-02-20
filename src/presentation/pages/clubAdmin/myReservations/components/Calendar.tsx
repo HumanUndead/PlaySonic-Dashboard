@@ -106,12 +106,7 @@ const Calendar = ({
   return (
     <div className="tw-min-h-[1400px]">
       <FullCalendar
-        plugins={[
-          dayGridPlugin,
-          timeGridPlugin,
-          timeGridPlugin,
-          interactionPlugin,
-        ]}
+        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         headerToolbar={{
           left: "prevYear,prev,next,nextYear,today",
           center: "title",

@@ -73,7 +73,10 @@ export default function MyReservations() {
 
   // return all non cancelled reservations.
   const filteredData = ReservationData?.data.filter((data) => {
-    return data.status === ReservationStatusEnum["Approved"];
+    return (
+      data.status === ReservationStatusEnum["Approved"] ||
+      data.status === ReservationStatusEnum["New"]
+    );
   });
 
   const { ClubCourtsOption, isClubCourtLoading } = useClubCourtsDDL(clubId);
@@ -190,6 +193,15 @@ export default function MyReservations() {
                     {ClubCourtsOption.map((court) =>
                       generateCourtColors(court)
                     )}
+                    <div
+                      style={{
+                        backgroundColor: "gray",
+                        borderRadius: "50%",
+                        width: "20px",
+                        height: "20px",
+                      }}
+                    />
+                    Pending
                   </div>
                 )}
               </div>

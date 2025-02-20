@@ -23,15 +23,17 @@ interface IPropsCalendar {
 }
 
 export const CalendarColors = [
-  "green", // Red
-  "purple", // Purple
-  "blue", // Blue
-  "mint", // Mint
-  "gray", // Gray
-  "orange", // Orange
-  "pink", // Pink
-  "teal", // Green
-  "red", // Teal
+  "#f6bf26",
+  "#33b679",
+  "#039be5",
+  "#e67c73",
+  "#7986cb",
+  "#f4511e",
+  "#0b8043",
+  "#3f51b5",
+  "#0b57d0",
+  "#d50000",
+  "blue",
 ];
 
 export const getColorForCourt = (index: number) => {
@@ -69,7 +71,11 @@ const Calendar = ({
     return {
       id: data.id,
       backgroundColor:
-        courtId !== "All" ? "green" : getColorForCourt(data.courtId),
+        courtId !== "All"
+          ? "green"
+          : data.status == 1
+          ? "gray"
+          : getColorForCourt(data.courtId),
       title: data.name,
       start: fullStartDate,
       end: fullEndDate,

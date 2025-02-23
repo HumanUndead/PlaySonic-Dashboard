@@ -18,7 +18,6 @@ import { ReservationUrlEnum } from "@domain/enums/URL/Reservation/reservationUrl
 import UpdateReservationForm from "./UpdateReservationForm";
 import useCheckPermission from "@presentation/helpers/useCheckPermission";
 import StatusApproval from "@presentation/helpers/StatusApproval";
-import { ReservationStatusEnum } from "@domain/enums/reservationStatus/ReservationStatusEnum";
 
 interface Props {
   id: number;
@@ -104,11 +103,7 @@ const ReservationActionCell: FC<Props> = ({ id, name, status }) => {
         }}
         deleteBtn={checkSuperDeletePermission}
         deletBtnOnClick={() => handleDelete()}
-        children={
-          ReservationStatusEnum.New === status && (
-            <StatusApproval id={id} queryKey={QUERIES.ReservationList} />
-          )
-        }
+        children={<StatusApproval id={id} queryKey={QUERIES.ReservationList} />}
       />
       {itemIdForUpdate === id && (
         <CustomModal

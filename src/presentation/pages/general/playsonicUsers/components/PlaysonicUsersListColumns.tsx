@@ -1,13 +1,12 @@
 import { Column } from "react-table";
 import {
-  ActionItem,
   CustomCell,
   CustomHeaderCell,
   CustomSelectAll,
   CustomSelectionCell,
 } from "@presentation/components/tables";
 import { IPlaysonicUsersData } from "@domain/entities/general/PlaysonicUsers/PlaysonicUsers";
-import { useNavigate } from "react-router-dom";
+import { PlaysonicUsersActionCell } from "./PlaysonicUsersActionCell";
 
 const PlaysonicUsersListColumns: ReadonlyArray<Column<IPlaysonicUsersData>> = [
   {
@@ -35,14 +34,50 @@ const PlaysonicUsersListColumns: ReadonlyArray<Column<IPlaysonicUsersData>> = [
     Header: (props) => (
       <CustomHeaderCell
         tableProps={props}
-        title="ROLE-NAME"
+        title="USER-NAME"
+        enableSorting={false}
+        className="min-w-125px"
+      />
+    ),
+    id: "username",
+    Cell: ({ ...props }) => {
+      return <CustomCell data={props.data[props.row.index]?.userName} />;
+    },
+  },
+  {
+    Header: (props) => (
+      <CustomHeaderCell
+        tableProps={props}
+        title="NAME"
         enableSorting={false}
         className="min-w-125px"
       />
     ),
     id: "name",
     Cell: ({ ...props }) => {
-      return <CustomCell data={props.data[props.row.index]?.userName} />;
+      return (
+        <CustomCell
+          data={
+            props.data[props.row.index]?.firstName +
+            " " +
+            props.data[props.row.index]?.lastName
+          }
+        />
+      );
+    },
+  },
+  {
+    Header: (props) => (
+      <CustomHeaderCell
+        tableProps={props}
+        title="LEVEL"
+        enableSorting={false}
+        className="min-w-125px"
+      />
+    ),
+    id: "level",
+    Cell: ({ ...props }) => {
+      return <CustomCell data={props.data[props.row.index]?.level} />;
     },
   },
   // {
@@ -77,25 +112,14 @@ const PlaysonicUsersListColumns: ReadonlyArray<Column<IPlaysonicUsersData>> = [
     Header: (props) => (
       <CustomHeaderCell
         tableProps={props}
-        title="ACTION "
-        className="min-w-100px"
+        title="ACTION"
+        className=" min-w-100px"
       />
     ),
     id: "actions",
-    Cell: ({ ...props }) => {
-      const navigate = useNavigate();
-      return (
-        <ActionItem
-          icon="pencil"
-          title="Transaction"
-          onClick={() =>
-            navigate(
-              `/apps/admin/usertransection/${props.data[props.row.index]?.id}`
-            )
-          }
-        />
-      );
-    },
+    Cell: ({ ...props }) => (
+      <PlaysonicUsersActionCell id={props.data[props.row.index].id} />
+    ),
   },
 ];
 

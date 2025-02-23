@@ -7,4 +7,5 @@ export enum authenticationURLEnum {
   UpdatePassword = "Authenticate/User/UpdatePassword",
   getUser = "Authenticate/User/GetById?",
   getUserList = "Authenticate/User/List?",
+  UpdateUserByAdmin = "Authenticate/User/UpdateUserByAdmin",
 }

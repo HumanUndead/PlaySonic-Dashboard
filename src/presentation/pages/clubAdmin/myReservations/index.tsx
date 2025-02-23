@@ -22,15 +22,14 @@ import CustomTimePicker from "@presentation/components/forms/CustomTimePicker";
 import { useAuthStore } from "@infrastructure/storage/AuthStore";
 import { ReservationStatusEnum } from "@domain/enums/reservationStatus/ReservationStatusEnum";
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
 
 export default function MyReservations() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [startTime, setStartTime] = useState(
-    new Date(Date.now() - 172800000).toISOString()
+    moment().startOf("week").toISOString()
   );
-  const [endTime, setEndTime] = useState(
-    new Date(Date.now() + 345600000).toISOString()
-  );
+  const [endTime, setEndTime] = useState(moment().endOf("week").toISOString());
   const [courtId, setCourtId] = useState<any>("All");
   const [isIndoor, setIsIndoor] = useState(false);
   const navigate = useNavigate();
@@ -52,8 +51,8 @@ export default function MyReservations() {
   });
 
   const initialValues = {
-    fromDate: new Date(Date.now() - 172800000).toISOString(),
-    toDate: new Date(Date.now() + 345600000).toISOString(),
+    fromDate: moment().startOf("week").toISOString(),
+    toDate: moment().endOf("week").toISOString(),
     court: {
       label: "All",
       value: "All",

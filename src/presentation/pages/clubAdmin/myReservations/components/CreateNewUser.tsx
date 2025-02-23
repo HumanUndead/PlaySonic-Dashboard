@@ -27,6 +27,28 @@ import { AddReservationUserUrlEnum } from "@domain/enums/URL/AddReservationUser/
 import { GetPlaySonicByIdInstance } from "@app/useCases/getPlaySonicId";
 import { GetPlaySonicByIdUrlEnum } from "@domain/enums/URL/GetPlaySonicById/GetPlaySonicById";
 import { showPalySonicIdAlert } from "@presentation/components/alerts/showPalySonicIdAlert";
+import { PhoneInputField } from "@presentation/components/forms/PhoneInputField";
+
+function formatPhoneNumber(phoneNumber) {
+  // Remove the leading '+' sign
+  let numberWithoutPlus = phoneNumber.slice(1);
+
+  // Remove the 0 after the country code (if it exists)
+  const countryCodeLength = 3; // Assuming country code is always 3 digits
+  if (
+    numberWithoutPlus.length > countryCodeLength &&
+    numberWithoutPlus[countryCodeLength] === "0"
+  ) {
+    numberWithoutPlus =
+      numberWithoutPlus.slice(0, countryCodeLength) +
+      numberWithoutPlus.slice(countryCodeLength + 1);
+  }
+
+  // Add '00' prefix
+  const formattedNumber = "00" + numberWithoutPlus;
+
+  return formattedNumber;
+}
 
 const CreateNewUserForm = ({ setFieldValue, values, clubId }: any) => {
   const formikRef = useRef<FormikProps<FormikValues> | null>(null);
@@ -49,7 +71,10 @@ const CreateNewUserForm = ({ setFieldValue, values, clubId }: any) => {
     firstName: Yup.string().required("Required"),
     lastName: Yup.string().required("Required"),
     displayName: Yup.string().required("Required"),
-    phone: Yup.string().required("Required"),
+    userPhone: Yup.string()
+      .required("Required")
+      .min(11, "Invalid Phone")
+      .max(14, "Invalid Phone"),
   });
 
   const ReservationSchema = Yup.object().shape(_ReservationSchema);
@@ -61,7 +86,7 @@ const CreateNewUserForm = ({ setFieldValue, values, clubId }: any) => {
     const formData = new FormData();
     formData.append("FirstName", values.firstName);
     formData.append("LastName", values.lastName);
-    formData.append("Phone", values.phone);
+    formData.append("Phone", formatPhoneNumber(values.userPhone));
     formData.append("DisplayName", values.displayName);
     formData.append("DOB", values.dob);
     formData.append("UserLevel", values.userLevel);
@@ -208,11 +233,10 @@ const ReservationForm = ({
                 label="User-DISPLAY-NAME"
                 as="input"
               />
-              <CustomInputField
-                name="phone"
+              <PhoneInputField
+                name="userPhone"
                 placeholder="USER-PHONE"
                 label="USER-PHONE"
-                as="input"
               />
             </div>
             <div className="row row-cols-1 row-cols-md-2  border-info-subtle border-black">

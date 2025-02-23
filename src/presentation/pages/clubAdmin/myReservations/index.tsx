@@ -45,7 +45,7 @@ export default function MyReservations() {
     queryKey: ["MyReservations", searchQuery],
     queryFn: () => {
       return ReservationQueryInstance.getReservationList(
-        `${ReservationUrlEnum.GetReservationList}${searchQuery}`
+        `${ReservationUrlEnum.GetReservationList}clubId=${clubId}&${searchQuery}`
       );
     },
   });

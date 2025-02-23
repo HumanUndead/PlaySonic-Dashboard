@@ -89,6 +89,14 @@ const ReservationList = () => {
     }
   };
 
+  useEffect(() => {
+    // refresh every 2 minutes
+    const interval = setInterval(() => {
+      queryClient.invalidateQueries([QUERIES.ReservationList]);
+    }, 120000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <>
       <CustomKTCard>

@@ -8,7 +8,7 @@ import {
 import { stringifyRequestQuery } from "@presentation/helpers";
 import { useQuery, useQueryClient } from "react-query";
 import { Form, Formik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PleaseWaitTxt from "@presentation/helpers/loading/PleaseWaitTxt";
 import Calendar, { getColorForCourt } from "./components/Calendar";
 import validationSchemas from "@presentation/helpers/validationSchemas";
@@ -117,6 +117,14 @@ export default function MyReservations() {
       </>
     );
   };
+
+  useEffect(() => {
+    // refresh every 2 minutes
+    const interval = setInterval(() => {
+      queryClient.invalidateQueries("MyReservations");
+    }, 120000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <CustomKTCard>

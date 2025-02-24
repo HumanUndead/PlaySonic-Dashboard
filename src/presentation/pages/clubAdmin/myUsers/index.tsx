@@ -29,8 +29,9 @@ const MyUsers = () => {
   } = useQuery({
     queryKey: [QUERIES.MyUsersList, [query]],
     queryFn: () => {
+      const searchQuery = query ? `&${query}` : "";
       return MyUsersQueryInstance.getMyUsersList(
-        `${MyUsersUrlEnum.GetMyUsersList}clubId=${clubId}`
+        `${MyUsersUrlEnum.GetMyUsersList}clubId=${clubId}+${searchQuery}`
       );
     },
   });

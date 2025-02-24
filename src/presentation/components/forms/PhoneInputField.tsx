@@ -43,7 +43,10 @@ export const PhoneInputField = ({
       <div className="position-relative">
         <PhoneInput
           inputClassName="w-100 form-control form-control-solid"
-          className="form-control form-control-solid d-flex w-100 "
+          className="form-control form-control-solid d-flex w-100"
+          value={field.value}
+          placeholder={_placeholder}
+          defaultCountry={defaultCountry}
           // inputStyle={{
           //   backgroundColor: "#f9f9f9",
           //   height: "100%",
@@ -61,9 +64,12 @@ export const PhoneInputField = ({
           //   boxShadow: "false",
           //   transition: "border-color 0.15s ease-in-out, box-shadow 0.15s",
           // }}
-          value={field.value}
-          placeholder={_placeholder}
-          defaultCountry={defaultCountry}
+          flags={[
+            {
+              iso2: "il",
+              src: "/public/media/flags/palestine.svg",
+            },
+          ]}
           onChange={(value) => {
             setValue(value);
           }}

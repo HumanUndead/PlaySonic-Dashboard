@@ -29,7 +29,7 @@ import { GetPlaySonicByIdUrlEnum } from "@domain/enums/URL/GetPlaySonicById/GetP
 import { showPalySonicIdAlert } from "@presentation/components/alerts/showPalySonicIdAlert";
 import { PhoneInputField } from "@presentation/components/forms/PhoneInputField";
 
-function formatPhoneNumber(phoneNumber) {
+function formatPhoneNumber(phoneNumber: string) {
   // Remove the leading '+' sign
   let numberWithoutPlus = phoneNumber.slice(1);
 

@@ -1,5 +1,10 @@
 import { useField } from "formik";
-import { CountryIso2, PhoneInput } from "react-international-phone";
+import {
+  CountryIso2,
+  PhoneInput,
+  defaultCountries,
+  parseCountry,
+} from "react-international-phone";
 import "react-international-phone/style.css";
 import clsx from "clsx";
 import { useLocaleFormate } from "@presentation/hooks";
@@ -12,6 +17,12 @@ interface IProps {
   placeholder?: string;
   labelRequired?: boolean;
 }
+
+const countries = defaultCountries.map((country) => {
+  const { iso2 } = parseCountry(country);
+  if (iso2 === "il") country[0] = "Palestine";
+  return country;
+});
 
 export const PhoneInputField = ({
   name,
@@ -45,25 +56,9 @@ export const PhoneInputField = ({
           inputClassName="w-100 form-control form-control-solid"
           className="form-control form-control-solid d-flex w-100"
           value={field.value}
+          countries={countries}
           placeholder={_placeholder}
           defaultCountry={defaultCountry}
-          // inputStyle={{
-          //   backgroundColor: "#f9f9f9",
-          //   height: "100%",
-          //   border: "none",
-          //   display: "block",
-          //   width: "100%",
-          //   padding: "0.775rem 1rem",
-          //   fontSize: " 1.1rem",
-          //   fontWeight: "500",
-          //   lineHeight: "1.5",
-          //   color: "#4b5675",
-          //   border: "1px solid #dbdfe9",
-          //   appearance: "none",
-          //   borderRadius: "0.475rem",
-          //   boxShadow: "false",
-          //   transition: "border-color 0.15s ease-in-out, box-shadow 0.15s",
-          // }}
           flags={[
             {
               iso2: "il",

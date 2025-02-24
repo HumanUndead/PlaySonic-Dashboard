@@ -1,15 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface IClubCommand {
   createClub(url: string, body: any): Promise<IClubData>;
-  updateClub(
-    url: string,
-    body: IClubBody
-  ): Promise<IClubData>;
+  updateClub(url: string, body: IClubBody): Promise<IClubData>;
   deleteClub(url: any, id: number): Promise<IClubData>;
-  multipleDeleteClub(
-    url: string,
-    ids: number[]
-  ): Promise<IClubData>;
+  multipleDeleteClub(url: string, ids: number[]): Promise<IClubData>;
 }
 
 export interface IClubQuery {
@@ -17,10 +11,7 @@ export interface IClubQuery {
 }
 
 export interface IClubQueryById {
-  getClubById(
-    url: string,
-    id: number | string
-  ): Promise<IClubData>;
+  getClubById(url: string, id: number | string): Promise<IClubData>;
 
   deleteClubImage(
     url: string,
@@ -28,11 +19,7 @@ export interface IClubQueryById {
     isDeleteImage: boolean
   ): Promise<IClubData>;
 
-  deleteClubImages(
-    url: string,
-    id: number,
-    img: string
-  ): Promise<IClubData>;
+  deleteClubImages(url: string, id: number, img: string): Promise<IClubData>;
 }
 
 export interface IClubBody {
@@ -63,14 +50,14 @@ export interface IClubData {
   clubInfoResponses: IClubInfoResponse[];
   areaTranslations: any | null;
   courts: any | null;
-  lat: number,
-  lng: number,
-  image: string
-  images: []
+  lat: number;
+  lng: number;
+  image: string;
+  images: string;
 }
 
 export interface IClubInfoResponse {
-  languageId: number,
-  name: string,
-  description: string
+  languageId: number;
+  name: string;
+  description: string;
 }

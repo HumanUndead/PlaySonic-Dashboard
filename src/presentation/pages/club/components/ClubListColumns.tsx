@@ -152,7 +152,26 @@ const ClubListColumns: ReadonlyArray<Column<IClubData>> = [
       ) : (
         <DefaultImageCell alt="Club image" />
       ),
-   }, 
+  },
+  {
+    Header: (props) => (
+      <CustomHeaderCell
+        tableProps={props}
+        title="Club Bunner Images"
+        enableSorting={false}
+        className="min-w-125px"
+      />
+    ),
+    id: "images",
+    Cell: ({ ...props }) =>
+      props.data[props.row.index]?.images ? (
+        <CustomImageCell
+          image={props.data[props.row.index]?.images.split(",")[0]}
+        />
+      ) : (
+        <DefaultImageCell alt="Club Bunner Images" />
+      ),
+  },
   {
     Header: (props) => (
       <CustomHeaderCell

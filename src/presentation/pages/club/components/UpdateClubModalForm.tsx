@@ -86,7 +86,7 @@ export const UpdateClubModalForm = ({ ClubData, isLoading }: IProps) => {
       lng: lng,
       image: "",
       // images: ClubData.images,
-      // newImages: null,
+      newImages: [],
       ...translations,
     };
   }, [ClubData, Languages, lng, lat]);
@@ -145,9 +145,9 @@ export const UpdateClubModalForm = ({ ClubData, isLoading }: IProps) => {
 
     //  Until update images api done ---->
 
-    // values.newImages?.map((img: string) => {
-    //   formData.append(`Images`, img);
-    // });
+    values.newImages?.map((img: string) => {
+      formData.append("Images", img);
+    });
     const usedLangIds = ClubData.clubInfoResponses.map((lang) => {
       return lang.languageId;
     });
@@ -226,6 +226,7 @@ interface IData {
 const ClubUpdateForm: FC<IData> = ({ clubData }) => {
   const { setItemIdForUpdate } = useListView();
   const queryClient = useQueryClient();
+  const [images, setImages] = useState<string>();
 
   const {
     errors,
@@ -246,6 +247,10 @@ const ClubUpdateForm: FC<IData> = ({ clubData }) => {
     value: feature.value,
     label: feature.label,
   }));
+
+  useEffect(() => {
+    setImages(clubData.images);
+  }, [clubData.images]);
 
   useEffect(() => {
     CountryOption.forEach((elem) => {
@@ -301,14 +306,16 @@ const ClubUpdateForm: FC<IData> = ({ clubData }) => {
     }
   );
 
-  const HandelDeleteImage = async (img?: string) => {
+  const HandelDeleteImage = async (img: string) => {
     showAreYouSure({
       message: "Are you sure you want to delete this image?",
       onConfirm: async () => {
+        setImages(images?.replace(img || "", ""));
         if (img) {
-          await ClubCommandInstance.deleteClubImage(
-            ClubUrlEnum.DeleteClubImage,
-            clubData.id || 0
+          await ClubCommandInstance.deleteClubImages(
+            ClubUrlEnum.DeleteClubImages,
+            clubData.id || 0,
+            img.split("/").pop()
           );
           // openUpdateHotelSupplierRoomModal(values?.id);
         }
@@ -456,21 +463,21 @@ const ClubUpdateForm: FC<IData> = ({ clubData }) => {
 
             {/* ----- Until update images api done ---- */}
 
-            {/* <div className="row row-cols-3">
+            <div className="row row-cols-3">
               <div>
                 <CustomUploadFile
                   name="newImages"
-                  label="Club-Covers"
+                  label="Club Bunner Images"
                   touched={touched}
                   errors={errors}
-                  multiple={true}
+                  multiple
                   labelRequired={false}
                   isSubmitting={isSubmitting}
                   accept={"image/*"}
                 />
 
-                {clubData.images &&
-                  clubData?.images.split(",").map((image) => (
+                {images &&
+                  images.split(",").map((image) => (
                     <CustomImageReviewForUpdate
                       inedx={+image}
                       fileName={clubData.images + image}
@@ -481,7 +488,7 @@ const ClubUpdateForm: FC<IData> = ({ clubData }) => {
                     />
                   ))}
               </div>
-            </div> */}
+            </div>
             <hr />
             <div className="translation mt-5">
               <div className="d-flex mb-7">

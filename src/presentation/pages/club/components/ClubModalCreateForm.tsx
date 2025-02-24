@@ -51,7 +51,7 @@ export const ClubModalCreateForm = () => {
       lat: 0,
       lng: 0,
       image: null,
-      //  images: [],
+      images: [],
     },
     ...Languages.map((lang) => ({
       [`name${lang?.id}`]: "",
@@ -92,7 +92,6 @@ export const ClubModalCreateForm = () => {
     const features = combineBits(
       values.features.map((feature: IfeatureOptionsDDL) => feature.value)
     );
-
     const formData = new FormData();
     formData.append("CountryId", values.country.value);
     formData.append("CityId", values.city.value);
@@ -106,9 +105,9 @@ export const ClubModalCreateForm = () => {
     formData.append("Img", values.image);
 
     // Wait until update images api done >>>
-    // values?.images?.map((img: File) => {
-    //   formData.append("Images", img);
-    // });
+    values?.images?.map((img: File) => {
+      formData.append("Images", img);
+    });
 
     let index = 0;
     Languages.forEach((lang) => {
@@ -295,10 +294,19 @@ const ClubForm = () => {
                 name="image"
                 label="CLUB-IMAGE"
               />
+              <CustomUploadFile
+                isSubmitting={isSubmitting}
+                touched={touched}
+                errors={errors}
+                accept="image/*"
+                name="images"
+                label="Club Bunner Images"
+                multiple
+              />
             </div>
 
             {/* -- Wait until update images api done >>>  */}
-            
+
             {/* <div className="row row-cols-3">
               <CustomUploadFile
                 name="images"

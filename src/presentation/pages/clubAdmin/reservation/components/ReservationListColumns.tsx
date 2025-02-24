@@ -90,6 +90,28 @@ const ReservationListColumns: ReadonlyArray<Column<IReservationData>> = [
       <CustomCell data={props.data[props.row.index]?.name} />
     ),
   },
+  {
+    Header: (props) => (
+      <CustomHeaderCell
+        tableProps={props}
+        title="From"
+        enableSorting={false}
+        className="min-w-125px"
+      />
+    ),
+    id: "from",
+    Cell: ({ ...props }) => (
+      <CustomCell
+        data={
+          ReservationTypeEnum[
+            props.data[props.row.index]?.reservationTypeId
+          ] === "Book Court"
+            ? "Manual"
+            : "App"
+        }
+      />
+    ),
+  },
 
   {
     Header: (props) => (

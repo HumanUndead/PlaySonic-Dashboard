@@ -101,15 +101,7 @@ const ReservationListColumns: ReadonlyArray<Column<IReservationData>> = [
     ),
     id: "from",
     Cell: ({ ...props }) => (
-      <CustomCell
-        data={
-          ReservationTypeEnum[
-            props.data[props.row.index]?.reservationTypeId
-          ] === "Book Court"
-            ? "Manual"
-            : "App"
-        }
-      />
+      <CustomCell data={props.data[props.row.index]?.source ?? ""} />
     ),
   },
 

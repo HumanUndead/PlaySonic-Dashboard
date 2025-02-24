@@ -54,5 +54,6 @@ export interface IReservationData {
   addedDate: string;
   slotsRemaining: number;
   sportId: number;
-  clubId:number
+  clubId: number;
+  source: "Web" | "App" | null;
 }

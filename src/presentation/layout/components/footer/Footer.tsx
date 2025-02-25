@@ -10,12 +10,12 @@ const Footer = () => {
     <>
       <div className="text-gray-900 order-2 order-md-1">
         <a
-          href="https://www.kensoftware.com/"
+          href="https://www.playsonic.io/"
           target="_blank"
           className="text-gray-800 text-hover-primary"
         >
           <span className="text-muted fw-semibold me-1">
-            {new Date().getFullYear().toString()}&copy;
+            Copyright Playsonic {new Date().getFullYear().toString()}&copy;
           </span>
         </a>
       </div>

@@ -169,7 +169,13 @@ const ClubListColumns: ReadonlyArray<Column<IClubData>> = [
           image={props.data[props.row.index]?.images.split(",")[0]}
         />
       ) : (
-        <DefaultImageCell alt="Club Banner Images" />
+        <div className="symbol-label">
+          <img
+            alt="Club Banner Images"
+            src={"/public/media/logos/TabLogo.jpeg"}
+            className="w-75"
+          />
+        </div>
       ),
   },
   {

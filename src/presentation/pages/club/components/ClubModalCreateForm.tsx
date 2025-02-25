@@ -300,7 +300,7 @@ const ClubForm = () => {
                 errors={errors}
                 accept="image/*"
                 name="images"
-                label="Club Bunner Images"
+                label="Club Banner Images"
                 multiple
               />
             </div>

@@ -467,7 +467,7 @@ const ClubUpdateForm: FC<IData> = ({ clubData }) => {
               <div>
                 <CustomUploadFile
                   name="newImages"
-                  label="Club Bunner Images"
+                  label="Club Banner Images"
                   touched={touched}
                   errors={errors}
                   multiple

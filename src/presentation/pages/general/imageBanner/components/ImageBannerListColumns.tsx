@@ -74,7 +74,7 @@ const ImageBannerListColumns: ReadonlyArray<Column<IImageBannerData>> = [
       props.data[props.row.index]?.image ? (
         <CustomImageCell image={props.data[props.row.index]?.image} />
       ) : (
-        <DefaultImageCell alt="Image" />
+        <DefaultImageCell alt="Banner Image" />
       ),
   },
   {

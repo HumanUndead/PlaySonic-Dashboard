@@ -70,7 +70,7 @@ export function Login() {
           User Name
         </label>
         <input
-          placeholder="Email"
+          placeholder="User Name"
           {...formik.getFieldProps("username")}
           className={clsx(
             "form-control bg-transparent",

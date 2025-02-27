@@ -8,7 +8,7 @@ import {
 import { stringifyRequestQuery } from "@presentation/helpers";
 import { useQuery, useQueryClient } from "react-query";
 import { Form, Formik } from "formik";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PleaseWaitTxt from "@presentation/helpers/loading/PleaseWaitTxt";
 import Calendar, { getColorForCourt } from "./components/Calendar";
 import validationSchemas from "@presentation/helpers/validationSchemas";
@@ -23,6 +23,7 @@ import { useAuthStore } from "@infrastructure/storage/AuthStore";
 import { ReservationStatusEnum } from "@domain/enums/reservationStatus/ReservationStatusEnum";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
+import AutoRefreshComponent from "@presentation/components/AutoRefresh";
 
 export default function MyReservations() {
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -118,16 +119,9 @@ export default function MyReservations() {
     );
   };
 
-  useEffect(() => {
-    // refresh every 2 minutes
-    const interval = setInterval(() => {
-      queryClient.invalidateQueries("MyReservations");
-    }, 120000);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <CustomKTCard>
+      <AutoRefreshComponent invalidateName={"MyReservations"} />
       <div className="tw-ml-10 tw-mt-4">
         <CustomKTIcon iconName="element-6" className="fs-1 text-primary" />
         <button

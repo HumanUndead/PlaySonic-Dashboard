@@ -26,6 +26,7 @@ import { CreateReservationForm } from "./components/CreateReservationForm";
 import ReservaionFilter from "./components/ReservaionFilter";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuthStore } from "@infrastructure/storage/AuthStore";
+import AutoRefreshComponent from "@presentation/components/AutoRefresh";
 
 const ReservationList = () => {
   const { updateData, query, setIsLoading, setError } = useQueryRequest();
@@ -89,14 +90,6 @@ const ReservationList = () => {
     }
   };
 
-  useEffect(() => {
-    // refresh every 2 minutes
-    const interval = setInterval(() => {
-      queryClient.invalidateQueries([QUERIES.ReservationList]);
-    }, 120000);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <>
       <CustomKTCard>
@@ -108,6 +101,7 @@ const ReservationList = () => {
             <CustomKTIcon iconName="element-9" className="fs-1 text-primary" />
           </div>
         )}
+        <AutoRefreshComponent invalidateName={QUERIES.ReservationList} />
         <CustomTableToolbar
           addBtnAction={() => {
             setItemIdForUpdate(null);

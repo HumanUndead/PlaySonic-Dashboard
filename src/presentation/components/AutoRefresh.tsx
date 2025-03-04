@@ -7,7 +7,7 @@ type AutoRefreshComponentProps = {
 };
 
 const AutoRefreshComponent = ({
-  timeoutMinutes = 2,
+  timeoutMinutes = 5,
   invalidateName,
 }: AutoRefreshComponentProps) => {
   // Convert minutes to milliseconds
@@ -47,6 +47,7 @@ const AutoRefreshComponent = ({
       if (elapsed >= timeoutMs) {
         console.log("No activity detected for 2 minutes. Refreshing page...");
         queryClient.invalidateQueries(invalidateName);
+        resetTimer();
       }
     }, 1000); // Check every second
 

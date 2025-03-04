@@ -70,7 +70,12 @@ const CreateNewUserForm = ({ setFieldValue, values, clubId }: any) => {
   const _ReservationSchema = Object.assign({
     firstName: Yup.string().required("Required"),
     lastName: Yup.string().required("Required"),
-    displayName: Yup.string().required("Required"),
+    displayName: Yup.string()
+      .required("Required")
+      .matches(/^[a-zA-Z0-9]+$/, {
+        message: "Invalid Display Name",
+        excludeEmptyString: true,
+      }),
     userPhone: Yup.string()
       .required("Required")
       .min(11, "Invalid Phone")

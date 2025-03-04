@@ -53,6 +53,7 @@ export interface IPlaysonicUsersData {
   level: number;
   otp: string;
   token: string;
+  playsonicId: string;
 }
 
 export interface IPlaysonicUserUpdate {

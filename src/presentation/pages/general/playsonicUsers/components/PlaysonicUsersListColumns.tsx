@@ -70,6 +70,20 @@ const PlaysonicUsersListColumns: ReadonlyArray<Column<IPlaysonicUsersData>> = [
     Header: (props) => (
       <CustomHeaderCell
         tableProps={props}
+        title="Playsonic Id"
+        enableSorting={false}
+        className="min-w-125px"
+      />
+    ),
+    id: "playsonicId",
+    Cell: ({ ...props }) => {
+      return <CustomCell data={props.data[props.row.index]?.playsonicId} />;
+    },
+  },
+  {
+    Header: (props) => (
+      <CustomHeaderCell
+        tableProps={props}
         title="LEVEL"
         enableSorting={false}
         className="min-w-125px"

@@ -88,8 +88,12 @@ const CreateNewUserForm = ({ setFieldValue, values, clubId }: any) => {
     formData.append("LastName", values.lastName);
     formData.append("Phone", formatPhoneNumber(values.userPhone));
     formData.append("DisplayName", values.displayName);
-    formData.append("DOB", values.dob);
-    formData.append("UserLevel", values.userLevel);
+    if (values.dob) {
+      formData.append("DOB", values.dob);
+    }
+    if (values.userLevel) {
+      formData.append("UserLevel", values.userLevel);
+    }
     formData.append("Gender", values.gender.value);
     formData.append("CreateBy", values.createBy);
 
@@ -240,26 +244,28 @@ const ReservationForm = ({
               />
             </div>
             <div className="row row-cols-1 row-cols-md-2  border-info-subtle border-black">
-              <CustomTimePicker
-                label="Bith-Date"
-                name="dob"
-                placeholder="Bith-Date"
-              />
-              <CustomInputField
-                name="userLevel"
-                placeholder="Level"
-                label="Level"
-                as="input"
-                type="number"
+              <CustomSelectField
+                name="gender"
+                options={GenderOptionsDDL}
+                label="DDL-GENDER"
+                placeholder="DDL-GENDER"
               />
             </div>
           </div>
           <div className="row row-cols-1 row-cols-md-2  border-info-subtle border-black">
-            <CustomSelectField
-              name="gender"
-              options={GenderOptionsDDL}
-              label="DDL-GENDER"
-              placeholder="DDL-GENDER"
+            <CustomTimePicker
+              label="Bith-Date"
+              name="dob"
+              placeholder="Bith-Date"
+              labelRequired={false}
+            />
+            <CustomInputField
+              name="userLevel"
+              placeholder="Level"
+              label="Level"
+              as="input"
+              type="number"
+              labelRequired={false}
             />
           </div>
         </div>

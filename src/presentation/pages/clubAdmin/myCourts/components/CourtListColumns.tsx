@@ -56,10 +56,10 @@ const CourtListColumns: ReadonlyArray<Column<ICourtData>> = [
       />
     ),
     id: "club",
-    Cell: ({ ...props }) => {
-      return <ClubNameCell clubId={props.data[props.row.index]?.clubId} />
-      
-    },
+    Cell: ({ ...props }) => (
+      <ClubNameCell clubId={props.data[props.row.index]?.clubId} />
+      // <CustomCell data={props.data[props.row.index]?.clubName} />
+    ),
   },
   // {
   //   Header: (props) => (

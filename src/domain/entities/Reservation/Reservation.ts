@@ -56,4 +56,7 @@ export interface IReservationData {
   sportId: number;
   clubId: number;
   source: "Web" | "App" | null;
+  courtName: string;
+  clubName: string;
+  slotType: number;
 }

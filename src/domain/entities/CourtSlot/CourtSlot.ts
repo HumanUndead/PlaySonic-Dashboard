@@ -17,10 +17,7 @@ export interface ICourtSlotsQuery {
 }
 
 export interface ICourtSlotsQueryById {
-  getCourtSlotsById(
-    url: string,
-    id: number | string
-  ): Promise<ICourtSlotsData>;
+  getCourtSlotsById(url: string, id: number | string): Promise<ICourtSlotsData>;
 }
 
 export interface ICourtSlotsBody {
@@ -38,10 +35,13 @@ export interface ICourtSlotsBody {
 }
 
 export interface ICourtSlotsData {
-  id: number,
-  courtId: number,
-  clubId:number,
-  slotTypeId: number,
-  fullPrice: number,
-  singlePrice: number
+  id: number;
+  courtId: number;
+  clubId: number;
+  slotTypeId: number;
+  courtName: string;
+  clubName: string;
+  slotType: number;
+  fullPrice: number;
+  singlePrice: number;
 }

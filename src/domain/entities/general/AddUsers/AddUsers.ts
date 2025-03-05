@@ -39,4 +39,5 @@ export interface IAddUsersData {
   roleId: number;
   clubId: number;
   roleName: string;
+  clubName: string;
 }

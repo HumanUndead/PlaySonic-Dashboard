@@ -26,9 +26,10 @@ export interface ICityBody {
 }
 export interface ICityData {
   id: number;
-  rank: number,
-  payload: string,
-  countryId: number,
+  rank: number;
+  payload: string;
+  countryId: number;
+  countryName: string;
   translations: ICityTranslation[];
 }
 

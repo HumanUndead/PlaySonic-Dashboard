@@ -9,7 +9,6 @@ import {
 } from "@presentation/components/tables";
 import { CourtActionCell } from "./CourtActionCell";
 import { ICourtData } from "@domain/entities/Court/Court";
-import ClubNameCell from "@presentation/helpers/cells/ClubNameCell";
 import { AllowedSlotsTypeCell } from "@presentation/helpers/cells/AllowedSlotsTypeCell";
 import DefaultImageCell from "@presentation/components/tables/cells/DefaultImageCell";
 
@@ -59,9 +58,9 @@ const CourtListColumns: ReadonlyArray<Column<ICourtData>> = [
       />
     ),
     id: "club",
-    Cell: ({ ...props }) => {
-      return <ClubNameCell clubId={props.data[props.row.index]?.clubId} />;
-    },
+    Cell: ({ ...props }) => (
+      <CustomCell data={props.data[props.row.index]?.clubName} />
+    ),
   },
   {
     Header: (props) => (
@@ -74,7 +73,11 @@ const CourtListColumns: ReadonlyArray<Column<ICourtData>> = [
     ),
     id: "slotType",
     Cell: ({ ...props }) => {
-      return <AllowedSlotsTypeCell slot={props.data[props.row.index]?.allowedSlotTypes} />;
+      return (
+        <AllowedSlotsTypeCell
+          slot={props.data[props.row.index]?.allowedSlotTypes}
+        />
+      );
     },
   },
   {

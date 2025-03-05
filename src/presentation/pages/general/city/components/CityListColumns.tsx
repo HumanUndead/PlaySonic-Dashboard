@@ -6,7 +6,6 @@ import {
   CustomSelectionCell,
 } from "@presentation/components/tables";
 import { ICityData } from "@domain/entities/general/city/City";
-import CountryNameCell from "@presentation/helpers/cells/CountryNameCell";
 import { CityActionCell } from "./CityActionCell";
 
 const CityListColumns: ReadonlyArray<Column<ICityData>> = [
@@ -56,7 +55,7 @@ const CityListColumns: ReadonlyArray<Column<ICityData>> = [
     ),
     id: "countryname",
     Cell: ({ ...props }) => (
-      <CountryNameCell countryId={props.data[props.row.index]?.countryId} />
+      <CustomCell data={props.data[props.row.index]?.countryName} />
     ),
   },
   // {

@@ -8,8 +8,6 @@ import {
 } from "@presentation/components/tables";
 import { ReservationActionCell } from "./ReservationActionCell";
 import { IReservationData } from "@domain/entities/Reservation/Reservation";
-import CourtNameCell from "@presentation/helpers/cells/CourtNameCell";
-import SlotTypeNameCell from "@presentation/helpers/cells/SlotTypeNameCell";
 import { ReservationTypeEnum } from "@domain/enums/reservationType/ReservationTypeEnum";
 import { ReservationStatusEnum } from "@domain/enums/reservationStatus/ReservationStatusEnum";
 
@@ -46,7 +44,7 @@ const ReservationListColumns: ReadonlyArray<Column<IReservationData>> = [
     ),
     id: "courtId",
     Cell: ({ ...props }) => (
-      <CourtNameCell courtId={props.data[props.row.index]?.courtId} />
+      <CustomCell data={props.data[props.row.index]?.courtName} />
     ),
   },
   {
@@ -178,13 +176,9 @@ const ReservationListColumns: ReadonlyArray<Column<IReservationData>> = [
       />
     ),
     id: "slotTypeId",
-    Cell: ({ ...props }) => {
-      return (
-        <SlotTypeNameCell
-          slotTypeId={props.data[props.row.index]?.slotTypeId}
-        />
-      );
-    },
+    Cell: ({ ...props }) => (
+      <CustomCell data={props.data[props.row.index]?.slotType} />
+    ),
   },
   {
     Header: (props) => (

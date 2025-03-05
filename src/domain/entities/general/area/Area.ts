@@ -20,9 +20,10 @@ export interface IAreaBody {
 }
 export interface IAreaData {
   id: number;
-  rank: number,
-  payload: string,
-  cityId: number,
+  rank: number;
+  payload: string;
+  cityId: number;
+  cityName: string;
   translations: IAreaTranslation[];
 }
 

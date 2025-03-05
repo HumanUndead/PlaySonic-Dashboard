@@ -1,15 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface ICourtCommand {
   createCourt(url: string, body: any): Promise<ICourtData>;
-  updateCourt(
-    url: string,
-    body: ICourtBody
-  ): Promise<ICourtData>;
+  updateCourt(url: string, body: ICourtBody): Promise<ICourtData>;
   deleteCourt(url: any, id: number): Promise<ICourtData>;
-  multipleDeleteCourt(
-    url: string,
-    ids: number[]
-  ): Promise<ICourtData>;
+  multipleDeleteCourt(url: string, ids: number[]): Promise<ICourtData>;
 
   deleteCourtImage(
     url: string,
@@ -23,12 +17,7 @@ export interface ICourtQuery {
 }
 
 export interface ICourtQueryById {
-  getCourtById(
-    url: string,
-    id: number | string
-  ): Promise<ICourtData>;
-
-
+  getCourtById(url: string, id: number | string): Promise<ICourtData>;
 }
 
 export interface ICourtBody {
@@ -56,12 +45,13 @@ export interface ICourtData {
   systemTypeId: number;
   allowedSlotTypes: number;
   sportId: number;
-  fullPathImage: string
+  fullPathImage: string;
+  clubName: string;
 }
 
 export interface IMyCourt {
-  id: number
-  fullPathImage: string,
-  name: string,
-  indoor: boolean,
+  id: number;
+  fullPathImage: string;
+  name: string;
+  indoor: boolean;
 }

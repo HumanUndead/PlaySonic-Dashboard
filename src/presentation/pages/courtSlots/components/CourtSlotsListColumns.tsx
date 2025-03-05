@@ -7,9 +7,6 @@ import {
 } from "@presentation/components/tables";
 import { CourtSlotsActionCell } from "./CourtSlotsActionCell";
 import { ICourtSlotsData } from "@domain/entities/CourtSlot/CourtSlot";
-import CourtNameCell from "@presentation/helpers/cells/CourtNameCell";
-import SlotTypeNameCell from "@presentation/helpers/cells/SlotTypeNameCell";
-import ClubNameCell from "@presentation/helpers/cells/ClubNameCell";
 import useCheckPermission from "@presentation/helpers/useCheckPermission";
 
 const CourtSlotsListColumns: ReadonlyArray<Column<ICourtSlotsData>> = [
@@ -44,9 +41,9 @@ const CourtSlotsListColumns: ReadonlyArray<Column<ICourtSlotsData>> = [
       />
     ),
     id: "courtId",
-    Cell: ({ ...props }) => {
-      return <CourtNameCell courtId={props.data[props.row.index]?.courtId} />;
-    },
+    Cell: ({ ...props }) => (
+      <CustomCell data={props.data[props.row.index]?.courtName} />
+    ),
   },
   {
     Header: (props) => (
@@ -58,9 +55,9 @@ const CourtSlotsListColumns: ReadonlyArray<Column<ICourtSlotsData>> = [
       />
     ),
     id: "clubId",
-    Cell: ({ ...props }) => {
-      return <ClubNameCell clubId={props.data[props.row.index]?.clubId} />;
-    },
+    Cell: ({ ...props }) => (
+      <CustomCell data={props.data[props.row.index]?.clubName} />
+    ),
   },
   {
     Header: (props) => (
@@ -72,13 +69,9 @@ const CourtSlotsListColumns: ReadonlyArray<Column<ICourtSlotsData>> = [
       />
     ),
     id: "slottype",
-    Cell: ({ ...props }) => {
-      return (
-        <SlotTypeNameCell
-          slotTypeId={props.data[props.row.index]?.slotTypeId}
-        />
-      );
-    },
+    Cell: ({ ...props }) => (
+      <CustomCell data={props.data[props.row.index]?.slotType} />
+    ),
   },
   {
     Header: (props) => (

@@ -16,7 +16,6 @@ import { CustomButton } from "@presentation/components";
 import moment from "moment";
 import CustomSelectField from "@presentation/components/forms/CustomSelectField";
 import { ReservationStatusOptionsOptions } from "@presentation/helpers/DDL/ReservationStatusOptions";
-import { useCourtsDDL } from "@presentation/hooks/queries/DDL/Court/useCourtsDDL";
 import { useClubsDDL } from "@presentation/hooks/queries/DDL/Club/useClubsDDL";
 import { useClubCourtsDDL } from "@presentation/hooks/queries/DDL/Court/useClubCourtsDDL";
 

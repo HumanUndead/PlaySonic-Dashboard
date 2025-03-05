@@ -7,7 +7,6 @@ import {
 } from "@presentation/components/tables";
 import { IAreaData } from "@domain/entities/general/area/Area";
 import { AreaActionCell } from "./AreaActionCell";
-import CityNameCell from "@presentation/helpers/cells/CityNameCell";
 
 const AreaListColumns: ReadonlyArray<Column<IAreaData>> = [
   {
@@ -56,7 +55,7 @@ const AreaListColumns: ReadonlyArray<Column<IAreaData>> = [
     ),
     id: "countryname",
     Cell: ({ ...props }) => (
-      <CityNameCell cityId={props.data[props.row.index]?.cityId} />
+      <CustomCell data={props.data[props.row.index]?.cityName} />
     ),
   },
   // {

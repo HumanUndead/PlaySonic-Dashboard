@@ -54,6 +54,9 @@ export interface IClubData {
   lng: number;
   image: string;
   images: string;
+  countryName: string;
+  cityName: string;
+  areaName: string;
 }
 
 export interface IClubInfoResponse {

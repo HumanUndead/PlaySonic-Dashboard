@@ -9,9 +9,6 @@ import {
 import { IClubData } from "@domain/entities/Clubs/Clubs";
 import { ClubActionCell } from "./CustomClubActionCell";
 import { FeaturesCell } from "@presentation/helpers/cells/FeaturesCell";
-import CityNameCell from "@presentation/helpers/cells/CityNameCell";
-import CountryNameCell from "@presentation/helpers/cells/CountryNameCell";
-import AreaNameCell from "@presentation/helpers/cells/AreaNameCell";
 import DefaultImageCell from "@presentation/components/tables/cells/DefaultImageCell";
 
 const ClubListColumns: ReadonlyArray<Column<IClubData>> = [
@@ -77,7 +74,7 @@ const ClubListColumns: ReadonlyArray<Column<IClubData>> = [
     ),
     id: "country",
     Cell: ({ ...props }) => (
-      <CountryNameCell countryId={props.data[props.row.index]?.countryId} />
+      <CustomCell data={props.data[props.row.index]?.countryName} />
     ),
   },
   {
@@ -91,7 +88,7 @@ const ClubListColumns: ReadonlyArray<Column<IClubData>> = [
     ),
     id: "city",
     Cell: ({ ...props }) => (
-      <CityNameCell cityId={props.data[props.row.index]?.cityId} />
+      <CustomCell data={props.data[props.row.index]?.cityName} />
     ),
   },
   {
@@ -105,7 +102,7 @@ const ClubListColumns: ReadonlyArray<Column<IClubData>> = [
     ),
     id: "area",
     Cell: ({ ...props }) => (
-      <AreaNameCell areaId={props.data[props.row.index]?.areaId} />
+      <CustomCell data={props.data[props.row.index]?.areaName} />
     ),
   },
   {

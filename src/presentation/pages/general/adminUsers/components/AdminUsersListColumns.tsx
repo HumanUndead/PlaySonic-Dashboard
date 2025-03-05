@@ -6,7 +6,6 @@ import {
   CustomSelectionCell,
 } from "@presentation/components/tables";
 import { IAddUsersData } from "@domain/entities/general/AddUsers/AddUsers";
-import ClubNameCell from "@presentation/helpers/cells/ClubNameCell";
 import { AdminUsersActionCell } from "./AdminUsersActionCell";
 
 const AdminUsersListColumns: ReadonlyArray<Column<IAddUsersData>> = [
@@ -83,9 +82,9 @@ const AdminUsersListColumns: ReadonlyArray<Column<IAddUsersData>> = [
       />
     ),
     id: "clubId",
-    Cell: ({ ...props }) => {
-      return <ClubNameCell clubId={props.data[props.row.index]?.clubId} />;
-    },
+    Cell: ({ ...props }) => (
+      <CustomCell data={props.data[props.row.index]?.clubName} />
+    ),
   },
   {
     Header: (props) => (

@@ -7,9 +7,7 @@ import {
 } from "@presentation/components/tables";
 import { CourtScheduleActionCell } from "./CourtScheduleActionCell";
 import { ICourtScheduleData } from "@domain/entities/CourtSchedule/CourtSchedule";
-import CourtNameCell from "@presentation/helpers/cells/CourtNameCell";
 import { DaysCell } from "@presentation/helpers/cells/DaysCell";
-import ClubNameCell from "@presentation/helpers/cells/ClubNameCell";
 import useCheckPermission from "@presentation/helpers/useCheckPermission";
 
 const CourtScheduleListColumns: ReadonlyArray<Column<ICourtScheduleData>> = [
@@ -44,9 +42,9 @@ const CourtScheduleListColumns: ReadonlyArray<Column<ICourtScheduleData>> = [
       />
     ),
     id: "court",
-    Cell: ({ ...props }) => {
-      return <CourtNameCell courtId={props.data[props.row.index]?.courtId} />;
-    },
+    Cell: ({ ...props }) => (
+      <CustomCell data={props.data[props.row.index]?.courtName} />
+    ),
   },
   {
     Header: (props) => (
@@ -58,9 +56,9 @@ const CourtScheduleListColumns: ReadonlyArray<Column<ICourtScheduleData>> = [
       />
     ),
     id: "clubId",
-    Cell: ({ ...props }) => {
-      return <ClubNameCell clubId={props.data[props.row.index]?.clubId} />;
-    },
+    Cell: ({ ...props }) => (
+      <CustomCell data={props.data[props.row.index]?.clubName} />
+    ),
   },
   {
     Header: (props) => (

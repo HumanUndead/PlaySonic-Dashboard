@@ -192,7 +192,7 @@
   "SIDEBAR-RESERVATION-OWNER-NAME": "اسم المالك",
   "SIDEBAR-RESERVATION-END-TIME": "وقت الانتهاء",
   "SIDEBAR-RESERVATION-START-TIME": "وقت البدء",
-  "SIDEBAR-RESERVATION-SLOT-TYPE-ID": "Slot Type",
+  "SIDEBAR-RESERVATION-SLOT-TYPE-ID": "مدة الحجز",
   "SIDEBAR-RESERVATION-COURT-ID": "اسم الملعب",
   "General": "عام",
   "Reservation": "الحجوزات",

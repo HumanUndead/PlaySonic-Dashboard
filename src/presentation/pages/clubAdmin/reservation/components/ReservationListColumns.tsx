@@ -99,7 +99,13 @@ const ReservationListColumns: ReadonlyArray<Column<IReservationData>> = [
     ),
     id: "from",
     Cell: ({ ...props }) => (
-      <CustomCell data={props.data[props.row.index]?.source ?? ""} />
+      <CustomCell
+        data={
+          props.data[props.row.index]?.source === "Web"
+            ? "Manual"
+            : props.data[props.row.index]?.source ?? ""
+        }
+      />
     ),
   },
 

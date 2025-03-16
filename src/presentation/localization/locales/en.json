@@ -204,7 +204,7 @@
   "SIDEBAR-RESERVATION-OWNER-NAME": "Owner Name",
   "SIDEBAR-RESERVATION-END-TIME": "End Time",
   "SIDEBAR-RESERVATION-START-TIME": "Start Time",
-  "SIDEBAR-RESERVATION-SLOT-TYPE-ID": "Slot Type",
+  "SIDEBAR-RESERVATION-SLOT-TYPE-ID": "Duration",
   "SIDEBAR-RESERVATION-COURT-ID": "Court Name",
   "General": "General",
   "Reservation": "Reservation",

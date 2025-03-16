@@ -75,6 +75,8 @@ const Calendar = ({
           ? "green"
           : data.status == 1
           ? "gray"
+          : data.status == 16
+          ? "black"
           : getColorForCourt(data.courtId),
       title: data.name,
       start: fullStartDate,

@@ -75,7 +75,8 @@ export default function MyReservations() {
   const filteredData = ReservationData?.data.filter((data) => {
     return (
       data.status === ReservationStatusEnum["Approved"] ||
-      data.status === ReservationStatusEnum["New"]
+      data.status === ReservationStatusEnum["New"] ||
+      data.status === ReservationStatusEnum["Finished"]
     );
   });
 
@@ -203,6 +204,15 @@ export default function MyReservations() {
                       }}
                     />
                     Pending
+                    <div
+                      style={{
+                        backgroundColor: "black",
+                        borderRadius: "50%",
+                        width: "20px",
+                        height: "20px",
+                      }}
+                    />
+                    Finished
                   </div>
                 )}
               </div>

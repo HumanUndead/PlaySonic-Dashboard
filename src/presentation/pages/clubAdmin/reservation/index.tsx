@@ -27,6 +27,7 @@ import ReservaionFilter from "./components/ReservaionFilter";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuthStore } from "@infrastructure/storage/AuthStore";
 import AutoRefreshComponent from "@presentation/components/AutoRefresh";
+import { ReservationExpandedView } from "./components/ReservationExpandedView";
 
 const ReservationList = () => {
   const { updateData, query, setIsLoading, setError } = useQueryRequest();
@@ -113,7 +114,11 @@ const ReservationList = () => {
           addBtn={false}
           addName="ADD"
         />
-        <CustomTable columns={columns} data={tableData || []} />
+        <CustomTable
+          columns={columns}
+          data={tableData || []}
+          ExpandingComponent={ReservationExpandedView}
+        />
       </CustomKTCard>
       {itemIdForUpdate === null && (
         <CustomModal

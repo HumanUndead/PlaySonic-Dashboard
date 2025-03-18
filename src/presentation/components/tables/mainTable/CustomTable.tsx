@@ -20,6 +20,51 @@ interface TableProps {
   ExpandingComponent?: FC<{ data: any; row: Row }>;
 }
 
+// Replace the existing renderRowSubComponent with this:
+const renderRowSubComponent = ({ row, ExpandingComponent }) => {
+  return (
+    <div className="px-8 py-4 bg-light-primary rounded mx-8 mb-4">
+      {ExpandingComponent ? (
+        <ExpandingComponent data={row.original} row={row} />
+      ) : (
+        <div className="row">
+          <div className="col-12">
+            <div className="d-flex flex-column">
+              <div className="d-flex justify-content-between align-items-center mb-4">
+                <h3 className="text-dark fw-bold fs-4 mb-0">Row Details</h3>
+                <span className="badge badge-light-primary fs-7">
+                  ID: {row.original.id}
+                </span>
+              </div>
+              <div className="table-responsive">
+                <table className="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
+                  <tbody>
+                    {Object.entries(row.original).map(([key, value]) => (
+                      <tr key={key}>
+                        <td
+                          className="fw-bold text-muted fs-6"
+                          style={{ width: "200px" }}
+                        >
+                          {key.charAt(0).toUpperCase() + key.slice(1)}
+                        </td>
+                        <td className="fs-6">
+                          {typeof value === "object"
+                            ? JSON.stringify(value)
+                            : String(value)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const CustomTable: FC<TableProps & WithChildren> = ({
   columns,
   data,
@@ -103,7 +148,7 @@ const CustomTable: FC<TableProps & WithChildren> = ({
                     {row.isExpanded && ExpandingComponent && (
                       <tr>
                         <td colSpan={columns.length}>
-                          <ExpandingComponent data={row.original} row={row} />
+                          {renderRowSubComponent({ row, ExpandingComponent })}
                         </td>
                       </tr>
                     )}

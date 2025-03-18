@@ -20,6 +20,22 @@ const ReservationListColumns: ReadonlyArray<Column<IReservationData>> = [
     ),
   },
   {
+    id: "expander",
+    Header: () => null,
+    Cell: ({ row }) => (
+      <button
+        {...row.getToggleRowExpandedProps()}
+        className="btn btn-sm btn-icon btn-light-primary"
+      >
+        {row.isExpanded ? (
+          <i className="bi bi-chevron-up"></i>
+        ) : (
+          <i className="bi bi-chevron-down"></i>
+        )}
+      </button>
+    ),
+  },
+  {
     Header: (props) => (
       <CustomHeaderCell
         tableProps={props}

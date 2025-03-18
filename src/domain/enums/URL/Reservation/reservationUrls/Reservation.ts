@@ -5,4 +5,5 @@ export enum ReservationUrlEnum {
   UpdateReservation = "Booking/Reservation/Update",
   DeleteReservation = "Booking/Reservation/Delete?",
   MultipleDeleteReservation = "Booking/Reservation/MultipleDelete",
+  UserReservation = "Booking/UserReservation/List?",
 }

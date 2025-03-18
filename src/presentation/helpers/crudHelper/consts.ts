@@ -12,16 +12,17 @@ const QUERIES = {
   SlotTypeList: "SlotTypeList",
   CourtSlotsList: "CourtSlotsList",
   CountryList: "CountryList",
-  CityList:"CityList",
+  CityList: "CityList",
   AreaList: "AreaList",
-  ReservationList:"ReservationtList",
-  RolesList:"RolesList",
+  ReservationList: "ReservationtList",
+  UserReservationList: "UserReservationtList",
+  RolesList: "RolesList",
   ImageBannerList: "ImageBannerList",
-  AdminUsersList:"AdminUsersList",
-  PlaysonicUsersList:"PlaysonicUsersList",
-  MyUsersList:"MyUsersList",
-  UserTransectionsList:"UserTransectionsList",
-  ClubUserTransectionsList:"ClubUserTransectionsList"
+  AdminUsersList: "AdminUsersList",
+  PlaysonicUsersList: "PlaysonicUsersList",
+  MyUsersList: "MyUsersList",
+  UserTransectionsList: "UserTransectionsList",
+  ClubUserTransectionsList: "ClubUserTransectionsList",
 };
 const PAGINATION_PAGES_COUNT = 3;
 const defaultPageNumberInPagination = 1;

@@ -60,3 +60,32 @@ export interface IReservationData {
   clubName: string;
   slotType: number;
 }
+
+export interface IUserReservationBody {
+  pageNumber: number;
+  pageSize: number;
+  totalRecords: number;
+  totalPages: number;
+  data: IUserReservationData[];
+  isSuccess: boolean;
+  isFailure: boolean;
+  error: {
+    code: string;
+    message: string;
+  };
+}
+
+export interface IUserReservationData {
+  id: number;
+  reservationId: number;
+  userId: string;
+  amount: number;
+  paid: boolean;
+  paidAmount: number;
+  checkedIn: boolean;
+  status: number;
+  finalResult: number;
+  rankDiff: number;
+  phone: string;
+  fullName: string;
+}

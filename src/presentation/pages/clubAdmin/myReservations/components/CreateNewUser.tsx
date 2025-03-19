@@ -28,6 +28,8 @@ import { GetPlaySonicByIdInstance } from "@app/useCases/getPlaySonicId";
 import { GetPlaySonicByIdUrlEnum } from "@domain/enums/URL/GetPlaySonicById/GetPlaySonicById";
 import { showPalySonicIdAlert } from "@presentation/components/alerts/showPalySonicIdAlert";
 import { PhoneInputField } from "@presentation/components/forms/PhoneInputField";
+import { GetUserByPhoneInstance } from "@app/useCases/GetUserPhone";
+import { GetUserByPhoneUrlEnum } from "@domain/enums/URL/GetUserByPhone/GetUserByPhone";
 
 function formatPhoneNumber(phoneNumber: string) {
   // Remove the leading '+' sign
@@ -138,17 +140,32 @@ const CreateNewUserForm = ({ setFieldValue, values, clubId }: any) => {
   };
   const HandleFindUser = async () => {
     try {
-      const findUser = await GetPlaySonicByIdInstance.getPlaySonicById(
-        GetPlaySonicByIdUrlEnum.GetGetPlaySonicByIdById,
-        values.playSonicId
-      );
+      if (values.playSonicId) {
+        const findUser = await GetPlaySonicByIdInstance.getPlaySonicById(
+          GetPlaySonicByIdUrlEnum.GetGetPlaySonicByIdById,
+          values.playSonicId
+        );
 
-      if (findUser) {
-        setUser(true);
-        setFieldValue("ownerID", {
-          value: findUser.userId,
-          label: findUser.userName,
-        });
+        if (findUser) {
+          setUser(true);
+          setFieldValue("ownerID", {
+            value: findUser.userId,
+            label: findUser.userName,
+          });
+        }
+      } else if (values.phone) {
+        const findUser = await GetUserByPhoneInstance.getUserByPhone(
+          GetUserByPhoneUrlEnum.GetUserByPhone,
+          values.phone
+        );
+
+        if (findUser) {
+          setUser(true);
+          setFieldValue("ownerID", {
+            value: findUser.userId,
+            label: findUser.userName,
+          });
+        }
       }
     } catch {
       CustomToast("User Not found", "error");

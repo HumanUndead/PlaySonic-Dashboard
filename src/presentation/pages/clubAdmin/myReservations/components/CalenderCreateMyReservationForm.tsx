@@ -28,6 +28,8 @@ import { useGetSlotTypeByCourtIdDDL } from "@presentation/hooks/queries/DDL/Slot
 import { GetPlaySonicByIdInstance } from "@app/useCases/getPlaySonicId";
 import { GetPlaySonicByIdUrlEnum } from "@domain/enums/URL/GetPlaySonicById/GetPlaySonicById";
 import { useClubCourtsDDL } from "@presentation/hooks/queries/DDL/Court/useClubCourtsDDL";
+import { GetUserByPhoneInstance } from "@app/useCases/GetUserPhone";
+import { GetUserByPhoneUrlEnum } from "@domain/enums/URL/GetUserByPhone/GetUserByPhone";
 
 interface ICourtId {
   courtId: number | "All";
@@ -50,13 +52,12 @@ export const CalenderCreateMyReservationForm: FC<ICourtId> = ({
   const initialValues = {
     courtId: courtId === "All" ? null : courtId,
     playSonicId: 0,
+    phone: null,
     slotTypeId: null,
     startTime: startTime,
     endTime: null,
     status: { value: 1, label: "New" },
     reservationTypeId: { value: 4, label: "Book Court" },
-    levelMin: null,
-    levelMax: null,
     isPublic: !isIndoor,
     reservationDate: reservationDate,
     slotsRemaining: 1,
@@ -71,8 +72,6 @@ export const CalenderCreateMyReservationForm: FC<ICourtId> = ({
     startTime: Yup.string().required("Required"),
     endTime: Yup.string().required("Required"),
     reservationDate: Yup.string().required("Required"),
-    levelMin: Yup.number().required("Required"),
-    levelMax: Yup.number().required("Required"),
     reservationTypeId: validationSchemas.object,
     status: validationSchemas.object,
   });
@@ -92,8 +91,6 @@ export const CalenderCreateMyReservationForm: FC<ICourtId> = ({
     formData.append("StartTime", values.startTime);
     formData.append("EndTime", values.endTime);
     formData.append("ReservationTypeId", values.reservationTypeId.value);
-    formData.append("LevelMin", values.levelMin);
-    formData.append("LevelMax", values.levelMax);
     formData.append("IsPublic", values.isPublic);
     formData.append("ReservationDate", values.reservationDate);
     formData.append("SportId", values.sportId);
@@ -102,13 +99,24 @@ export const CalenderCreateMyReservationForm: FC<ICourtId> = ({
 
     try {
       if (Object.keys(values.ownerID ?? {}).length === 0) {
-        const findUser = await GetPlaySonicByIdInstance.getPlaySonicById(
-          GetPlaySonicByIdUrlEnum.GetGetPlaySonicByIdById,
-          values.playSonicId
-        );
+        if (values.playSonicId) {
+          const findUser = await GetPlaySonicByIdInstance.getPlaySonicById(
+            GetPlaySonicByIdUrlEnum.GetGetPlaySonicByIdById,
+            values.playSonicId
+          );
 
-        if (findUser) {
-          formData.append("OwnerID", findUser.userId);
+          if (findUser) {
+            formData.append("OwnerID", findUser.userId);
+          }
+        } else if (values.phone) {
+          const findUser = await GetUserByPhoneInstance.getUserByPhone(
+            GetUserByPhoneUrlEnum.GetUserByPhone,
+            values.phone
+          );
+
+          if (findUser) {
+            formData.append("OwnerID", findUser.userId);
+          }
         }
       } else {
         formData.append("OwnerID", values.ownerID.value);
@@ -255,34 +263,12 @@ const ReservationForm = ({ courtId, formikRef, clubId }: Iprop) => {
             </div>
 
             <div className="row  row-cols-1 row-cols-md-2 border-info-subtle border-black">
-              <CustomInputField
-                name="levelMin"
-                placeholder="Reservation-Level-Min"
-                label="Reservation-Level-Min"
-                as="input"
+              <CustomCheckbox
+                labelTxt="isPublic"
+                name={"isPublic"}
                 touched={touched}
                 errors={errors}
-                type="number"
-                isSubmitting={isSubmitting}
               />
-              <CustomInputField
-                name="levelMax"
-                placeholder="Reservation-Level-Max"
-                label="Reservation-Level-Max"
-                as="input"
-                touched={touched}
-                errors={errors}
-                type="number"
-                isSubmitting={isSubmitting}
-              />{" "}
-              <div className="row  row-cols-1 row-cols-md-2 border-info-subtle border-black">
-                <CustomCheckbox
-                  labelTxt="isPublic"
-                  name={"isPublic"}
-                  touched={touched}
-                  errors={errors}
-                />
-              </div>
             </div>
             <hr />
           </div>
@@ -292,6 +278,16 @@ const ReservationForm = ({ courtId, formikRef, clubId }: Iprop) => {
             name="playSonicId"
             placeholder="PlaySonicId"
             label="PlaySonicId"
+            as="input"
+            touched={touched}
+            errors={errors}
+            type="number"
+            isSubmitting={isSubmitting}
+          />
+          <CustomInputField
+            name="phone"
+            placeholder="Phone Number"
+            label="Phone Number"
             as="input"
             touched={touched}
             errors={errors}

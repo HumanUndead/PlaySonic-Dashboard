@@ -109,6 +109,20 @@ const ClubListColumns: ReadonlyArray<Column<IClubData>> = [
     Header: (props) => (
       <CustomHeaderCell
         tableProps={props}
+        title="Rank"
+        enableSorting={false}
+        className="min-w-125px"
+      />
+    ),
+    id: "rank",
+    Cell: ({ ...props }) => (
+      <CustomCell data={props.data[props.row.index]?.rank} />
+    ),
+  },
+  {
+    Header: (props) => (
+      <CustomHeaderCell
+        tableProps={props}
         title="SIDEBAR-CLUB-FEATURE"
         enableSorting={false}
         className="min-w-125px"

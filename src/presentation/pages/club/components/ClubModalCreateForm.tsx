@@ -52,6 +52,7 @@ export const ClubModalCreateForm = () => {
       lng: 0,
       image: null,
       images: [],
+      rank: 0,
     },
     ...Languages.map((lang) => ({
       [`name${lang?.id}`]: "",
@@ -64,6 +65,7 @@ export const ClubModalCreateForm = () => {
       country: validationSchemas.object,
       city: validationSchemas.object,
       area: validationSchemas.object,
+      rank: validationSchemas.number,
     },
     ...Languages.map((lang) => {
       return lang.id === 2
@@ -103,6 +105,7 @@ export const ClubModalCreateForm = () => {
     formData.append("lat", values.lat);
     formData.append("lng", values.lng);
     formData.append("Img", values.image);
+    formData.append("Rank", values.rank);
 
     // Wait until update images api done >>>
     values?.images?.map((img: File) => {
@@ -230,6 +233,16 @@ const ClubForm = () => {
                 isSubmitting={isSubmitting}
                 options={FeaturesOptionsDDL}
                 isMulti={true}
+              />
+              <CustomInputField
+                name="rank"
+                placeholder="Rank"
+                label="Rank"
+                as="input"
+                touched={touched}
+                errors={errors}
+                type="text"
+                isSubmitting={isSubmitting}
               />
               <CustomInputField
                 name="lat"

@@ -82,6 +82,7 @@ export const UpdateClubModalForm = ({ ClubData, isLoading }: IProps) => {
       website: ClubData.website,
       features: ClubData.features,
       payload: ClubData.payload,
+      rank: ClubData.rank,
       lat: lat,
       lng: lng,
       image: "",
@@ -96,6 +97,7 @@ export const UpdateClubModalForm = ({ ClubData, isLoading }: IProps) => {
       country: validationSchemas.object,
       city: validationSchemas.object,
       area: validationSchemas.object,
+      rank: Yup.number(),
       lat: Yup.number(),
       lng: Yup.number(),
     },
@@ -139,6 +141,7 @@ export const UpdateClubModalForm = ({ ClubData, isLoading }: IProps) => {
     formData.append("Payload", values.payload);
     formData.append("lat", values.lat);
     formData.append("lng", values.lng);
+    formData.append("Rank", values.rank);
     if (values.image) {
       formData.append("Img", values.image);
     }
@@ -377,6 +380,16 @@ const ClubUpdateForm: FC<IData> = ({ clubData }) => {
                 isSubmitting={isSubmitting}
                 options={FeaturesOptionsDDL}
                 isMulti={true}
+              />
+              <CustomInputField
+                name="rank"
+                placeholder="Rank"
+                label="Rank"
+                as="input"
+                touched={touched}
+                errors={errors}
+                type="text"
+                isSubmitting={isSubmitting}
               />
               <CustomInputField
                 name="lat"

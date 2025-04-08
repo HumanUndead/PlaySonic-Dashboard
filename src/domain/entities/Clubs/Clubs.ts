@@ -47,6 +47,7 @@ export interface IClubData {
   payload: string;
   location: string;
   distance: number;
+  rank: number;
   clubInfoResponses: IClubInfoResponse[];
   areaTranslations: any | null;
   courts: any | null;

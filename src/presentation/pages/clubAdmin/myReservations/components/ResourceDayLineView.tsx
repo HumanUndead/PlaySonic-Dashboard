@@ -20,6 +20,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { CalenderReservationListColumns } from "./CalenderReservationListColumns";
+import { ReservationStatusEnum } from "@domain/enums/reservationStatus/ReservationStatusEnum";
 
 interface CalendarEvent {
   id: number;
@@ -27,9 +28,20 @@ interface CalendarEvent {
   start: Date;
   end: Date;
   resourceId: number;
+  status: number;
   reservationData: IReservationData;
 }
+
 const localizer = momentLocalizer(moment);
+
+const statusColors = {
+  New: "#3699FF", // primary
+  Approved: "#1BC5BD", // success
+  Confirmed: "#E4E6EF", // secondary
+  InProgress: "#FFA800", // warning
+  Finished: "#181C32", // dark
+  Cancelled: "#F64E60", // danger
+};
 
 const ResourceDayLineView = () => {
   const { auth } = useAuthStore();
@@ -80,6 +92,7 @@ const ResourceDayLineView = () => {
         start: startDateTime,
         end: endDateTime,
         resourceId: reservation.courtId,
+        status: reservation.status,
         reservationData: reservation,
       };
     });
@@ -95,6 +108,21 @@ const ResourceDayLineView = () => {
   }, [courtsData]);
 
   const defaultView = Views.DAY;
+
+  const getEventStyle = (event: CalendarEvent) => {
+    const status = ReservationStatusEnum[event.status];
+    const backgroundColor =
+      statusColors[status as keyof typeof statusColors] || "#3699FF";
+
+    return {
+      style: {
+        backgroundColor,
+        color: "#FFFFFF",
+        borderRadius: "4px",
+        border: "none",
+      },
+    };
+  };
 
   const onSelectEvent = (event: CalendarEvent) => {
     setIsModalOpen(true);
@@ -118,6 +146,17 @@ const ResourceDayLineView = () => {
         <CustomKTIcon iconName="element-10" className="fs-1 text-primary" />
       </div>
       <CustomKTCardBody>
+        <div className="tw-flex tw-flex-wrap tw-gap-4 tw-pr-4 tw-py-2 ">
+          {Object.entries(statusColors).map(([status, color]) => (
+            <div key={status} className="tw-flex tw-items-center tw-gap-2">
+              <div
+                className="tw-w-4 tw-h-4 tw-rounded"
+                style={{ backgroundColor: color }}
+              />
+              <span className="tw-text-sm">{status}</span>
+            </div>
+          ))}
+        </div>
         <Calendar
           localizer={localizer}
           events={events}
@@ -128,7 +167,10 @@ const ResourceDayLineView = () => {
           defaultView={defaultView}
           views={[Views.DAY]}
           onSelectEvent={onSelectEvent}
-          style={{ height: "100%" }}
+          eventPropGetter={getEventStyle}
+          style={{
+            height: "100%",
+          }}
         />
         {isModalopen && (
           <CustomModal

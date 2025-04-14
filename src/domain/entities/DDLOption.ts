@@ -7,9 +7,12 @@ export interface IDDlOption {
   otherValues?: { [type: string]: { value: number | boolean | string } };
 }
 
+export interface IDDlOptionCourt extends IDDlOption {
+  isIndoor?: boolean;
+}
 
 export interface IDDlOptionClub {
-  value: number ;
+  value: number;
   label: string;
   image?: string | undefined;
   service?: number | undefined;
@@ -18,7 +21,7 @@ export interface IDDlOptionClub {
 }
 
 export interface IDDlOptionSlotType {
-  value: number ;
+  value: number;
   label: number;
   image?: string | undefined;
   service?: number | undefined;

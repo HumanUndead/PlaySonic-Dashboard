@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CourtQueryInstance } from "@app/useCases/court";
-import { IDDlOption } from "@domain/entities";
+import { IDDlOptionCourt } from "@domain/entities";
 import { ICourtBody } from "@domain/entities/Court/Court";
 import { CourtUrlEnum } from "@domain/enums/URL/Court/CourtUrls/Court";
 import { useCallback, useEffect, useState } from "react";
 
 const useClubCourtsDDL = (id: number) => {
   const [ClubCourtsList, setCourts] = useState<ICourtBody>();
-  const [ClubCourtsOption, setCourtsOption] = useState<IDDlOption[]>([]);
+  const [ClubCourtsOption, setCourtsOption] = useState<IDDlOptionCourt[]>([]);
   const [isLoading, setIsLoadingCourts] = useState<boolean>(false);
 
   const fetchCourts = useCallback(async () => {

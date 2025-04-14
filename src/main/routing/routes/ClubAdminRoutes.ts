@@ -31,6 +31,13 @@ const ClubUserTransectionsListWrapper = lazy(
   () => import("@presentation/pages/clubAdmin/myUsers/components/Transections")
 );
 
+const ResourceDayLineViewWrapper = lazy(
+  () =>
+    import(
+      "@presentation/pages/clubAdmin/myReservations/components/ResourceDayLineView"
+    )
+);
+
 const ClubAdminRoutes: Route = {
   path: "/apps",
   title: "",
@@ -91,6 +98,13 @@ const ClubAdminRoutes: Route = {
       path: "clubtransection/:userId",
       title: "SIDEBAR-USER-TRANSECTOINS",
       component: ClubUserTransectionsListWrapper,
+      role: [],
+      breadcrumbs: [],
+    },
+    {
+      path: "myreservations/resource-view",
+      title: "Resource View",
+      component: ResourceDayLineViewWrapper,
       role: [],
       breadcrumbs: [],
     },

@@ -14,7 +14,7 @@ import Calendar, { getColorForCourt } from "./components/Calendar";
 import validationSchemas from "@presentation/helpers/validationSchemas";
 import * as Yup from "yup";
 import CustomSelectField from "@presentation/components/forms/CustomSelectField";
-import { IDDlOption } from "@domain/entities";
+import { IDDlOption, IDDlOptionCourt } from "@domain/entities";
 import { ReservationQueryInstance } from "@app/useCases/reservation";
 import { ReservationUrlEnum } from "@domain/enums/URL/Reservation/reservationUrls/Reservation";
 import { useClubCourtsDDL } from "@presentation/hooks/queries/DDL/Court/useClubCourtsDDL";
@@ -31,7 +31,7 @@ export default function MyReservations() {
     moment().startOf("week").toISOString()
   );
   const [endTime, setEndTime] = useState(moment().endOf("week").toISOString());
-  const [courtId, setCourtId] = useState<any>("All");
+  const [courtId, setCourtId] = useState<number | "All">("All");
   const [isIndoor, setIsIndoor] = useState(false);
   const navigate = useNavigate();
 
@@ -57,17 +57,10 @@ export default function MyReservations() {
     court: {
       label: "All",
       value: "All",
-    } as IDDlOption | null,
+    } as IDDlOptionCourt | null,
   };
 
   const filterSchema = Yup.object().shape({
-    // fromDate: validationSchemas.Date,
-    // toDate: validationSchemas.Date.when("fromDate", {
-    //   is: (fromDate: string) => fromDate !== null,
-    //   then: (schema) =>
-    //     schema.min(Yup.ref("fromDate"), "To Date can't be before From Date"),
-    //   otherwise: (schema) => schema,
-    // }),
     court: validationSchemas.object,
   });
 
@@ -97,8 +90,10 @@ export default function MyReservations() {
     setSearchQuery(query);
     setStartTime(values.fromDate);
     setEndTime(values.toDate);
-    setCourtId(values.court?.value);
-    setIsIndoor(getCourt?.isIndoor);
+    setCourtId(
+      values.court?.value === "All" ? "All" : Number(values.court?.value)
+    );
+    setIsIndoor(getCourt?.isIndoor || false);
   };
   const queryClient = useQueryClient();
 
@@ -123,12 +118,15 @@ export default function MyReservations() {
   return (
     <CustomKTCard>
       <AutoRefreshComponent invalidateName={"MyReservations"} />
-      <div className="tw-ml-10 tw-mt-4">
+      <div className="tw-ml-10 tw-mt-4 tw-flex tw-gap-1">
         <CustomKTIcon iconName="element-6" className="fs-1 text-primary" />
         <button
           onClick={() => navigate(`/apps/myreservations/list?from=calendar`)}
         >
           <CustomKTIcon iconName="element-9" className="fs-1" />
+        </button>
+        <button onClick={() => navigate(`/apps/myreservations/resource-view`)}>
+          <CustomKTIcon iconName="element-10" className="fs-1" />
         </button>
       </div>
       <CustomKTCardBody>

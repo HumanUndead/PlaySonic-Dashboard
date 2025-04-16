@@ -97,6 +97,7 @@ const CalenderReservationActionCell: FC<Props> = ({ id, name }) => {
         editBtnOnClick={() => {
           setItemIdForUpdate(id);
         }}
+        deleteBtn={false}
         deletBtnOnClick={() => handleDelete()}
         children={<StatusApproval id={id} queryKey={"MyReservations"} />}
       />

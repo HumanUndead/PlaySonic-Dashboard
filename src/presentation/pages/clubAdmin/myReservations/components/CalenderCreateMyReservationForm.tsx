@@ -291,7 +291,6 @@ const ReservationForm = ({ courtId, formikRef, clubId }: Iprop) => {
             as="input"
             touched={touched}
             errors={errors}
-            type="number"
             isSubmitting={isSubmitting}
           />
         </div>

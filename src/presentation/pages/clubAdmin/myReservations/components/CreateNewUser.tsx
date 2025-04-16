@@ -152,8 +152,10 @@ const CreateNewUserForm = ({ setFieldValue, values, clubId }: any) => {
             value: findUser.userId,
             label: findUser.userName,
           });
+          return;
         }
-      } else if (values.phone) {
+      }
+      if (values.phone) {
         const findUser = await GetUserByPhoneInstance.getUserByPhone(
           GetUserByPhoneUrlEnum.GetUserByPhone,
           values.phone
@@ -165,6 +167,7 @@ const CreateNewUserForm = ({ setFieldValue, values, clubId }: any) => {
             value: findUser.userId,
             label: findUser.userName,
           });
+          return;
         }
       }
     } catch {

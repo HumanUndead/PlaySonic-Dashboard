@@ -19,21 +19,21 @@ const SidebarMenuClubAdmins = () => {
       )}
       {checkMyReservaionPermission && (
         <SidebarMenuItem
-          to="/apps/myreservations"
+          to="/apps/myreservations/resource-view"
           title="SIDEBAR-My-Reservations"
           hasBullet={true}
         />
       )}
 
       {/* ----- Until api done ---- */}
-      
-       {checkMyUsersPermission && (
+
+      {checkMyUsersPermission && (
         <SidebarMenuItem
           to="/apps/myusers"
           title="SIDEBAR-My-Users"
           hasBullet={true}
         />
-      )} 
+      )}
     </>
   );
 };

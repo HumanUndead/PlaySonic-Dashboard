@@ -119,14 +119,14 @@ export default function MyReservations() {
     <CustomKTCard>
       <AutoRefreshComponent invalidateName={"MyReservations"} />
       <div className="tw-ml-10 tw-mt-4 tw-flex tw-gap-1">
+        <button onClick={() => navigate(`/apps/myreservations/resource-view`)}>
+          <CustomKTIcon iconName="element-10" className="fs-1" />
+        </button>
         <CustomKTIcon iconName="element-6" className="fs-1 text-primary" />
         <button
           onClick={() => navigate(`/apps/myreservations/list?from=calendar`)}
         >
           <CustomKTIcon iconName="element-9" className="fs-1" />
-        </button>
-        <button onClick={() => navigate(`/apps/myreservations/resource-view`)}>
-          <CustomKTIcon iconName="element-10" className="fs-1" />
         </button>
       </div>
       <CustomKTCardBody>

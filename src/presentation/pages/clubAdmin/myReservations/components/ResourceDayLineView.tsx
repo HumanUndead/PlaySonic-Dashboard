@@ -54,6 +54,12 @@ const ResourceDayLineView = () => {
   const [reservationPerDay, setReservationPerDay] = useState<
     IReservationData[]
   >([]);
+  const [clickedReservationDate, setClickedReservationDate] =
+    useState<string>("");
+  const [clickedReservationTime, setClickedReservationTime] =
+    useState<string>("");
+  const [selectedCourtId, setSelectedCourtId] = useState<number | null>(null);
+  const [isIndoor, setIsIndoor] = useState<boolean>(false);
 
   const columns = useMemo(() => CalenderReservationListColumns, []);
 
@@ -132,10 +138,15 @@ const ResourceDayLineView = () => {
     setReservationPerDay([event.reservationData]);
   };
 
-  const onSelectSlot = (slotInfo: any) => {
+  const onSelectSlot = (slotInfo: {
+    start: Date;
+    end: Date;
+    resourceId: number;
+  }) => {
     setIsReservationModal(true);
-    setClickedReservationDate(slotInfo.start);
-    setClickedReservationTime(slotInfo.start);
+    setClickedReservationDate(moment(slotInfo.start).format("YYYY-MM-DD"));
+    setClickedReservationTime(moment(slotInfo.start).format("HH:mm"));
+    setSelectedCourtId(slotInfo.resourceId);
   };
 
   if (isLoading || isFetching) return <PleaseWaitTxt />;
@@ -143,6 +154,7 @@ const ResourceDayLineView = () => {
   return (
     <CustomKTCard>
       <div className="tw-ml-10 tw-mt-4 tw-flex tw-gap-1">
+        <CustomKTIcon iconName="element-10" className="fs-1 text-primary" />
         <button onClick={() => navigate(`/apps/myreservations`)}>
           <CustomKTIcon iconName="element-6" className="fs-1" />
         </button>
@@ -151,7 +163,6 @@ const ResourceDayLineView = () => {
         >
           <CustomKTIcon iconName="element-9" className="fs-1" />
         </button>
-        <CustomKTIcon iconName="element-10" className="fs-1 text-primary" />
       </div>
       <CustomKTCardBody>
         <div className="tw-flex tw-flex-wrap tw-gap-4 tw-pr-4 tw-py-2 ">
@@ -173,9 +184,7 @@ const ResourceDayLineView = () => {
           resourceTitleAccessor="resourceTitle"
           defaultDate={new Date()}
           defaultView={defaultView}
-          onSelectSlot={(slotInfo) => {
-            console.log(slotInfo);
-          }}
+          onSelectSlot={onSelectSlot}
           components={{
             event: (props) => {
               return (
@@ -215,7 +224,7 @@ const ResourceDayLineView = () => {
             onClick={() => setIsReservationModal(false)}
           >
             <CalenderCreateMyReservationForm
-              courtId={courtId}
+              courtId={selectedCourtId || 0}
               reservationDate={clickedReservationDate}
               startTime={clickedReservationTime}
               clubId={clubId}

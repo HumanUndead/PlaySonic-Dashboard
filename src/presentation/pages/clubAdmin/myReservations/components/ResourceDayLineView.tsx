@@ -22,6 +22,11 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import { CalenderReservationListColumns } from "./CalenderReservationListColumns";
 import { ReservationStatusEnum } from "@domain/enums/reservationStatus/ReservationStatusEnum";
 import { CalenderCreateMyReservationForm } from "./CalenderCreateMyReservationForm";
+import { QUERIES } from "@presentation/helpers";
+import { CourtScheduleQueryInstance } from "@app/useCases/courtSchedule";
+import { CourtScheduleUrlEnum } from "@domain/enums/URL/CourtSchedule/CourtScheduleUrls/CourtSchedule";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 interface CalendarEvent {
   id: number;
@@ -34,6 +39,7 @@ interface CalendarEvent {
 }
 
 const localizer = momentLocalizer(moment);
+const secondDayLocalizer = momentLocalizer(moment);
 
 const statusColors = {
   New: "#3699FF", // primary
@@ -47,6 +53,7 @@ const statusColors = {
 const ResourceDayLineView = () => {
   const { auth } = useAuthStore();
   const clubId = auth?.clubID || 0;
+
   const navigate = useNavigate();
   const [isModalopen, setIsModalOpen] = useState<boolean>(false);
   const [isReservationModal, setIsReservationModal] = useState(false);
@@ -54,12 +61,15 @@ const ResourceDayLineView = () => {
   const [reservationPerDay, setReservationPerDay] = useState<
     IReservationData[]
   >([]);
+
   const [clickedReservationDate, setClickedReservationDate] =
     useState<string>("");
   const [clickedReservationTime, setClickedReservationTime] =
     useState<string>("");
   const [selectedCourtId, setSelectedCourtId] = useState<number | null>(null);
   const [isIndoor, setIsIndoor] = useState<boolean>(false);
+  const [currentDate, setCurrentDate] = useState<Date>(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   const columns = useMemo(() => CalenderReservationListColumns, []);
 
@@ -70,6 +80,40 @@ const ResourceDayLineView = () => {
         CourtUrlEnum.GetCourtList + `clubId=${clubId}`
       ),
   });
+
+  const {
+    data: CourtScheduleData,
+    isLoading: CourtScheduleLoading,
+    isFetching: CourtScheduleFetching,
+  } = useQuery({
+    queryKey: [QUERIES.CourtScheduleList, courtsData?.data[0].id],
+
+    queryFn: () => {
+      return CourtScheduleQueryInstance.getCourtScheduleList(
+        `${CourtScheduleUrlEnum.GetCourtScheduleList}courtId=${courtsData?.data[0].id}`
+      );
+    },
+    enabled: !!courtsData?.data[0].id,
+  });
+
+  // Get min and max times from court schedule
+  const minTime = useMemo(() => {
+    if (!CourtScheduleData?.data?.[0]?.startTime) return "00:00:00";
+    return CourtScheduleData.data[0].startTime;
+  }, [CourtScheduleData]);
+
+  const maxTime = useMemo(() => {
+    if (!CourtScheduleData?.data?.[0]?.endTime) return "23:59:59";
+    return CourtScheduleData.data[0].endTime;
+  }, [CourtScheduleData]);
+
+  // Check if the schedule spans overnight
+  const isOvernight = useMemo(() => {
+    if (!minTime || !maxTime) return false;
+    const startHour = parseInt(minTime.split(":")[0]);
+    const endHour = parseInt(maxTime.split(":")[0]);
+    return endHour < startHour;
+  }, [minTime, maxTime]);
 
   const {
     data: ReservationData,
@@ -141,15 +185,22 @@ const ResourceDayLineView = () => {
   const onSelectSlot = (slotInfo: {
     start: Date;
     end: Date;
-    resourceId: number;
+    resourceId?: number | string;
   }) => {
     setIsReservationModal(true);
     setClickedReservationDate(moment(slotInfo.start).format("YYYY-MM-DD"));
     setClickedReservationTime(moment(slotInfo.start).format("HH:mm"));
-    setSelectedCourtId(slotInfo.resourceId);
+    setSelectedCourtId(
+      slotInfo.resourceId ? Number(slotInfo.resourceId) : null
+    );
   };
 
-  if (isLoading || isFetching) return <PleaseWaitTxt />;
+  const handleNavigate = (date: Date) => {
+    setCurrentDate(date);
+  };
+
+  if (isLoading || isFetching || CourtScheduleLoading || CourtScheduleFetching)
+    return <PleaseWaitTxt />;
 
   return (
     <CustomKTCard>
@@ -165,45 +216,149 @@ const ResourceDayLineView = () => {
         </button>
       </div>
       <CustomKTCardBody>
-        <div className="tw-flex tw-flex-wrap tw-gap-4 tw-pr-4 tw-py-2 ">
-          {Object.entries(statusColors).map(([status, color]) => (
-            <div key={status} className="tw-flex tw-items-center tw-gap-2">
+        <div className="tw-flex tw-flex-col tw-gap-4">
+          <div className="tw-flex tw-items-center tw-justify-center tw-gap-8 tw-mb-4">
+            <button
+              onClick={() =>
+                setCurrentDate(moment(currentDate).subtract(1, "day").toDate())
+              }
+              className="tw-p-2 tw-rounded-full tw-bg-gray-100 hover:tw-bg-gray-200"
+            >
+              <CustomKTIcon iconName="arrow-left" className="fs-2" />
+            </button>
+            <div className="tw-relative">
               <div
-                className="tw-w-4 tw-h-4 tw-rounded"
-                style={{ backgroundColor: color }}
-              />
-              <span className="tw-text-sm">{status}</span>
+                className="tw-text-center tw-cursor-pointer hover:tw-text-primary"
+                onClick={() => setShowDatePicker(!showDatePicker)}
+              >
+                <div className="tw-text-4xl tw-font-semibold">
+                  {moment(currentDate).format("dddd")}
+                </div>
+                <div className="tw-text-lg">
+                  {moment(currentDate).format("MMMM D, YYYY")}
+                </div>
+              </div>
+              {showDatePicker && (
+                <div className="tw-absolute tw-top-full tw-left-1/2 tw-transform tw--translate-x-1/2 tw-z-10 tw-mt-2">
+                  <DatePicker
+                    selected={currentDate}
+                    onChange={(date: Date) => {
+                      setCurrentDate(date);
+                      setShowDatePicker(false);
+                    }}
+                    inline
+                    calendarClassName="tw-bg-white tw-rounded-lg tw-shadow-lg tw-p-2"
+                  />
+                </div>
+              )}
             </div>
-          ))}
+            <button
+              onClick={() =>
+                setCurrentDate(moment(currentDate).add(1, "day").toDate())
+              }
+              className="tw-p-2 tw-rounded-full tw-bg-gray-100 hover:tw-bg-gray-200"
+            >
+              <CustomKTIcon iconName="arrow-right" className="fs-2" />
+            </button>
+          </div>
+          <div className="tw-flex tw-flex-wrap tw-gap-4 tw-pr-4 tw-py-2 ">
+            {Object.entries(statusColors).map(([status, color]) => (
+              <div key={status} className="tw-flex tw-items-center tw-gap-2">
+                <div
+                  className="tw-w-4 tw-h-4 tw-rounded"
+                  style={{ backgroundColor: color }}
+                />
+                <span className="tw-text-sm">{status}</span>
+              </div>
+            ))}
+          </div>
+          <Calendar
+            localizer={localizer}
+            events={events}
+            resources={resources}
+            resourceIdAccessor="resourceId"
+            toolbar={false}
+            resourceTitleAccessor="resourceTitle"
+            date={currentDate}
+            defaultView={defaultView}
+            onSelectSlot={onSelectSlot}
+            min={
+              new Date(
+                currentDate.setHours(
+                  +minTime.split(":")[0],
+                  +minTime.split(":")[1],
+                  0
+                )
+              )
+            }
+            max={new Date(currentDate.setHours(23, 59, 59))}
+            components={{
+              event: (props) => {
+                return (
+                  <>
+                    <div className="tw-text-md">{props.event.title}</div>
+                    <div className="tw-mt-2 tw-text-md">{"07782138223"}</div>
+                  </>
+                );
+              },
+            }}
+            timeslots={1}
+            views={[Views.DAY]}
+            onSelectEvent={onSelectEvent}
+            eventPropGetter={getEventStyle}
+            selectable
+            style={{
+              height: "100%",
+            }}
+          />
+          {isOvernight && (
+            <Calendar
+              localizer={localizer}
+              events={events}
+              resources={resources}
+              date={moment(currentDate).add(1, "day").toDate()}
+              defaultView={defaultView}
+              onSelectSlot={onSelectSlot}
+              toolbar={false}
+              min={
+                new Date(
+                  moment(currentDate).add(1, "day").toDate().setHours(0, 0, 0)
+                )
+              }
+              max={
+                new Date(
+                  moment()
+                    .add(1, "day")
+                    .toDate()
+                    .setHours(
+                      +maxTime.split(":")[0],
+                      +maxTime.split(":")[1] + 30,
+                      0
+                    )
+                )
+              }
+              components={{
+                event: (props) => {
+                  return (
+                    <>
+                      <div className="tw-text-md">{props.event.title}</div>
+                      <div className="tw-mt-2 tw-text-md">{"07782138223"}</div>
+                    </>
+                  );
+                },
+                resourceHeader: () => null,
+              }}
+              timeslots={1}
+              views={[Views.DAY]}
+              onSelectEvent={onSelectEvent}
+              eventPropGetter={getEventStyle}
+              selectable
+              style={{
+                height: "100%",
+              }}
+            />
+          )}
         </div>
-        <Calendar
-          localizer={localizer}
-          events={events}
-          resources={resources}
-          resourceIdAccessor="resourceId"
-          resourceTitleAccessor="resourceTitle"
-          defaultDate={new Date()}
-          defaultView={defaultView}
-          onSelectSlot={onSelectSlot}
-          components={{
-            event: (props) => {
-              return (
-                <>
-                  <div className="tw-text-md">{props.event.title}</div>
-                  <div className="tw-mt-2 tw-text-md">{"07782138223"}</div>
-                </>
-              );
-            },
-          }}
-          timeslots={1}
-          views={[Views.DAY]}
-          onSelectEvent={onSelectEvent}
-          eventPropGetter={getEventStyle}
-          selectable
-          style={{
-            height: "100%",
-          }}
-        />
         {isModalopen && (
           <CustomModal
             modalTitle={modalTitle}

@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { CalenderReservationListColumns } from "./CalenderReservationListColumns";
 import { ReservationStatusEnum } from "@domain/enums/reservationStatus/ReservationStatusEnum";
+import { CalenderCreateMyReservationForm } from "./CalenderCreateMyReservationForm";
 
 interface CalendarEvent {
   id: number;
@@ -48,6 +49,7 @@ const ResourceDayLineView = () => {
   const clubId = auth?.clubID || 0;
   const navigate = useNavigate();
   const [isModalopen, setIsModalOpen] = useState<boolean>(false);
+  const [isReservationModal, setIsReservationModal] = useState(false);
   const [modalTitle, setModalTitle] = useState<string>("");
   const [reservationPerDay, setReservationPerDay] = useState<
     IReservationData[]
@@ -130,6 +132,12 @@ const ResourceDayLineView = () => {
     setReservationPerDay([event.reservationData]);
   };
 
+  const onSelectSlot = (slotInfo: any) => {
+    setIsReservationModal(true);
+    setClickedReservationDate(slotInfo.start);
+    setClickedReservationTime(slotInfo.start);
+  };
+
   if (isLoading || isFetching) return <PleaseWaitTxt />;
 
   return (
@@ -165,9 +173,24 @@ const ResourceDayLineView = () => {
           resourceTitleAccessor="resourceTitle"
           defaultDate={new Date()}
           defaultView={defaultView}
+          onSelectSlot={(slotInfo) => {
+            console.log(slotInfo);
+          }}
+          components={{
+            event: (props) => {
+              return (
+                <>
+                  <div className="tw-text-md">{props.event.title}</div>
+                  <div className="tw-mt-2 tw-text-md">{"07782138223"}</div>
+                </>
+              );
+            },
+          }}
+          timeslots={1}
           views={[Views.DAY]}
           onSelectEvent={onSelectEvent}
           eventPropGetter={getEventStyle}
+          selectable
           style={{
             height: "100%",
           }}
@@ -182,6 +205,21 @@ const ResourceDayLineView = () => {
               withPagination={false}
               columns={columns}
               data={reservationPerDay || []}
+            />
+          </CustomModal>
+        )}
+        {isReservationModal && (
+          <CustomModal
+            modalTitle="Create-Reservation"
+            modalSize={"xl"}
+            onClick={() => setIsReservationModal(false)}
+          >
+            <CalenderCreateMyReservationForm
+              courtId={courtId}
+              reservationDate={clickedReservationDate}
+              startTime={clickedReservationTime}
+              clubId={clubId}
+              isIndoor={isIndoor}
             />
           </CustomModal>
         )}

@@ -121,7 +121,7 @@ const CreateNewUserForm = ({ setFieldValue, values, clubId }: any) => {
         setFieldValue("playSonicId", data.playSonicId);
         setFieldValue("ownerID", {
           value: data.userId,
-          label: data.userName,
+          label: data.firstName + " " + data.lastName,
         });
         setItemIdForUpdate(undefined);
         queryClient.invalidateQueries({
@@ -150,7 +150,7 @@ const CreateNewUserForm = ({ setFieldValue, values, clubId }: any) => {
           setUser(true);
           setFieldValue("ownerID", {
             value: findUser.userId,
-            label: findUser.userName,
+            label: findUser.firstName + " " + findUser.lastName,
           });
           return;
         }
@@ -165,7 +165,7 @@ const CreateNewUserForm = ({ setFieldValue, values, clubId }: any) => {
           setUser(true);
           setFieldValue("ownerID", {
             value: findUser.userId,
-            label: findUser.userName,
+            label: findUser.firstName + " " + findUser.lastName,
           });
           return;
         }

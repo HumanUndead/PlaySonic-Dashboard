@@ -190,8 +190,6 @@ const ResourceDayLineView = () => {
     return allEvents;
   }, [ReservationData]);
 
-  console.log({ events });
-
   const resources = useMemo(() => {
     if (!courtsData?.data) return [];
 

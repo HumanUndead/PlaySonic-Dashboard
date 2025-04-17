@@ -30,6 +30,7 @@ import { GetPlaySonicByIdUrlEnum } from "@domain/enums/URL/GetPlaySonicById/GetP
 import { useClubCourtsDDL } from "@presentation/hooks/queries/DDL/Court/useClubCourtsDDL";
 import { GetUserByPhoneInstance } from "@app/useCases/GetUserPhone";
 import { GetUserByPhoneUrlEnum } from "@domain/enums/URL/GetUserByPhone/GetUserByPhone";
+import { useAuthStore } from "@infrastructure/storage/AuthStore";
 
 interface ICourtId {
   courtId: number | "All";
@@ -48,6 +49,7 @@ export const CalenderCreateMyReservationForm: FC<ICourtId> = ({
   const formikRef = useRef<FormikProps<FormikValues> | null>(null);
   const { setItemIdForUpdate } = useListView();
   const queryClient = useQueryClient();
+  const user = useAuthStore();
 
   const initialValues = {
     courtId: courtId === "All" ? null : courtId,
@@ -96,6 +98,12 @@ export const CalenderCreateMyReservationForm: FC<ICourtId> = ({
     formData.append("SportId", values.sportId);
     formData.append("Status", "2");
     formData.append("Source", "Web");
+    formData.append(
+      "EmployeeName",
+      user.currentUser?.user.firstName +
+        " " +
+        (user.currentUser?.user.lastName ?? "")
+    );
 
     try {
       if (Object.keys(values.ownerID ?? {}).length === 0) {

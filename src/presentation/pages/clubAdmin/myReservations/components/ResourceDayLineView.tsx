@@ -376,7 +376,9 @@ const ResourceDayLineView = () => {
               date={moment(currentDate).add(1, "day").toDate()}
               defaultView={defaultView}
               onSelectSlot={onSelectSlot}
+              resourceIdAccessor="resourceId"
               toolbar={false}
+              resourceTitleAccessor="resourceTitle"
               min={
                 new Date(
                   moment(currentDate).add(1, "day").toDate().setHours(0, 0, 0)

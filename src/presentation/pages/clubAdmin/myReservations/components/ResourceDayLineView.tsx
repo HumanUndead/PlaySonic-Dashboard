@@ -41,12 +41,12 @@ interface CalendarEvent {
 const localizer = momentLocalizer(moment);
 
 const statusColors = {
-  New: "#3699FF", // primary
-  Approved: "#1BC5BD", // success
-  Confirmed: "#E4E6EF", // secondary
-  InProgress: "#FFA800", // warning
-  Finished: "#181C32", // dark
-  Cancelled: "#F64E60", // danger
+  New: "primary", // primary
+  Approved: "success", // success
+  Confirmed: "secondary", // secondary
+  InProgress: "warning", // warning
+  Finished: "dark", // dark
+  Cancelled: "danger", // danger
 };
 
 const ResourceDayLineView = () => {
@@ -307,8 +307,8 @@ const ResourceDayLineView = () => {
             {Object.entries(statusColors).map(([status, color]) => (
               <div key={status} className="tw-flex tw-items-center tw-gap-2">
                 <div
-                  className="tw-w-4 tw-h-4 tw-rounded"
-                  style={{ backgroundColor: color }}
+                  className={`tw-w-4 tw-h-4 tw-rounded badge-${color}`}
+                  // style={{ backgroundColor: color }}
                 />
                 <span className="tw-text-sm">{status}</span>
               </div>

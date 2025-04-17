@@ -59,6 +59,7 @@ export interface IReservationData {
   courtName: string;
   clubName: string;
   slotType: number;
+  employeeName: string | null;
 }
 
 export interface IUserReservationBody {

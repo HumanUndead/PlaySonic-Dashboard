@@ -58,6 +58,7 @@ export interface IClubData {
   countryName: string;
   cityName: string;
   areaName: string;
+  isAutoApprove: boolean;
 }
 
 export interface IClubInfoResponse {

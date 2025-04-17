@@ -1,6 +1,7 @@
 import { Fragment, useRef, useState } from "react";
 import {
   CustomButton,
+  CustomCheckbox,
   CustomInputField,
   CustomListLoading,
   CustomToast,
@@ -53,6 +54,7 @@ export const ClubModalCreateForm = () => {
       image: null,
       images: [],
       rank: 0,
+      isAutoApprove: false,
     },
     ...Languages.map((lang) => ({
       [`name${lang?.id}`]: "",
@@ -106,6 +108,7 @@ export const ClubModalCreateForm = () => {
     formData.append("lng", values.lng);
     formData.append("Img", values.image);
     formData.append("Rank", values.rank);
+    formData.append("IsAutoApprove", values.isAutoApprove);
 
     // Wait until update images api done >>>
     values?.images?.map((img: File) => {
@@ -278,17 +281,6 @@ const ClubForm = () => {
                 isSubmitting={isSubmitting}
               />
 
-              {/* <CustomInputField
-                name="payload"
-                placeholder="CLUB-PAYLOAD"
-                label="CLUB-PAYLOAD"
-                as="input"
-                touched={touched}
-                errors={errors}
-                type="text"
-                isSubmitting={isSubmitting}
-              /> */}
-
               <CustomInputField
                 name="website"
                 placeholder="CLUB-WEBSITE"
@@ -299,6 +291,16 @@ const ClubForm = () => {
                 type="text"
                 isSubmitting={isSubmitting}
               />
+
+              <div className="form-check form-switch mt-4">
+                <CustomCheckbox
+                  name="isAutoApprove"
+                  labelTxt="Auto Approve"
+                  touched={touched}
+                  errors={errors}
+                />
+              </div>
+
               <CustomUploadFile
                 isSubmitting={isSubmitting}
                 touched={touched}
@@ -317,21 +319,6 @@ const ClubForm = () => {
                 multiple
               />
             </div>
-
-            {/* -- Wait until update images api done >>>  */}
-
-            {/* <div className="row row-cols-3">
-              <CustomUploadFile
-                name="images"
-                label="Club-Covers"
-                touched={touched}
-                errors={errors}
-                multiple={true}
-                labelRequired={false}
-                isSubmitting={isSubmitting}
-                accept={"image/*"}
-              />
-            </div> */}
 
             <hr />
             <div className="translation mt-5">

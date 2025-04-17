@@ -7,6 +7,7 @@ import {
   showAreYouSure,
   showConfirmationAlert,
   showDeletedAlert,
+  CustomCheckbox,
 } from "@presentation/components";
 import { useListView } from "@presentation/context";
 import {
@@ -86,6 +87,7 @@ export const UpdateClubModalForm = ({ ClubData, isLoading }: IProps) => {
       lat: lat,
       lng: lng,
       image: "",
+      isAutoApprove: ClubData.isAutoApprove || false,
       // images: ClubData.images,
       newImages: [],
       ...translations,
@@ -130,6 +132,7 @@ export const UpdateClubModalForm = ({ ClubData, isLoading }: IProps) => {
     const features = combineBits(
       values.features.map((feature: IfeatureOptionsDDL) => feature.value)
     );
+
     const formData = new FormData();
     formData.append("Id", String(initialValues.id));
     formData.append("CountryId", values.country.value);
@@ -142,6 +145,7 @@ export const UpdateClubModalForm = ({ ClubData, isLoading }: IProps) => {
     formData.append("lat", values.lat);
     formData.append("lng", values.lng);
     formData.append("Rank", values.rank);
+    formData.append("IsAutoApprove", values.isAutoApprove);
     if (values.image) {
       formData.append("Img", values.image);
     }
@@ -446,6 +450,14 @@ const ClubUpdateForm: FC<IData> = ({ clubData }) => {
                 type="text"
                 isSubmitting={isSubmitting}
               />
+              <div className="form-check form-switch mt-4">
+                <CustomCheckbox
+                  name="isAutoApprove"
+                  labelTxt="Auto Approve"
+                  touched={touched}
+                  errors={errors}
+                />
+              </div>
               <div>
                 <CustomUploadFile
                   label="Club-Image"

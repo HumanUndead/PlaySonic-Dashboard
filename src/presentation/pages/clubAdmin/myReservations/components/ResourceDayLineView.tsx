@@ -39,7 +39,6 @@ interface CalendarEvent {
 }
 
 const localizer = momentLocalizer(moment);
-const secondDayLocalizer = momentLocalizer(moment);
 
 const statusColors = {
   New: "#3699FF", // primary
@@ -130,7 +129,9 @@ const ResourceDayLineView = () => {
 
   const events = useMemo(() => {
     if (!ReservationData?.data) return [];
-    return ReservationData.data.map((reservation: IReservationData) => {
+    const allEvents: CalendarEvent[] = [];
+
+    ReservationData.data.forEach((reservation: IReservationData) => {
       const startDateTime = new Date(
         `${reservation.reservationDate.split("T")[0]}T${reservation.startTime}`
       );
@@ -138,17 +139,58 @@ const ResourceDayLineView = () => {
         `${reservation.reservationDate.split("T")[0]}T${reservation.endTime}`
       );
 
-      return {
-        id: reservation.id,
-        title: reservation.name,
-        start: startDateTime,
-        end: endDateTime,
-        resourceId: reservation.courtId,
-        status: reservation.status,
-        reservationData: reservation,
-      };
+      const isOvernight = endDateTime < startDateTime;
+
+      if (isOvernight) {
+        // First part of the event (today)
+        allEvents.push({
+          id: reservation.id,
+          title: reservation.name,
+          start: startDateTime,
+          end: endDateTime,
+          resourceId: reservation.courtId,
+          status: reservation.status,
+          reservationData: reservation,
+        });
+
+        // Second part of the event (next day)
+        allEvents.push({
+          id: reservation.id,
+          title: reservation.name,
+          start: new Date(
+            moment(startDateTime).add(1, "day").toDate().setHours(0, 0, 0)
+          ),
+          end: new Date(
+            moment(startDateTime)
+              .add(1, "day")
+              .toDate()
+              .setHours(
+                +reservation.endTime.split(":")[0],
+                +reservation.endTime.split(":")[1],
+                0
+              )
+          ),
+          resourceId: reservation.courtId,
+          status: reservation.status,
+          reservationData: reservation,
+        });
+      } else {
+        allEvents.push({
+          id: reservation.id,
+          title: reservation.name,
+          start: startDateTime,
+          end: endDateTime,
+          resourceId: reservation.courtId,
+          status: reservation.status,
+          reservationData: reservation,
+        });
+      }
     });
+
+    return allEvents;
   }, [ReservationData]);
+
+  console.log({ events });
 
   const resources = useMemo(() => {
     if (!courtsData?.data) return [];
@@ -242,9 +284,11 @@ const ResourceDayLineView = () => {
                 <div className="tw-absolute tw-top-full tw-left-1/2 tw-transform tw--translate-x-1/2 tw-z-10 tw-mt-2">
                   <DatePicker
                     selected={currentDate}
-                    onChange={(date: Date) => {
-                      setCurrentDate(date);
-                      setShowDatePicker(false);
+                    onChange={(date: Date | null) => {
+                      if (date) {
+                        setCurrentDate(date);
+                        setShowDatePicker(false);
+                      }
                     }}
                     inline
                     calendarClassName="tw-bg-white tw-rounded-lg tw-shadow-lg tw-p-2"
@@ -296,8 +340,23 @@ const ResourceDayLineView = () => {
               event: (props) => {
                 return (
                   <>
-                    <div className="tw-text-md">{props.event.title}</div>
-                    <div className="tw-mt-2 tw-text-md">{"07782138223"}</div>
+                    <div className="tw-flex tw-flex-col tw-gap-1 tw-p-2">
+                      <div className="tw-text-md tw-font-medium ">
+                        {props.event.title}
+                      </div>
+                      <div className="tw-flex tw-items-center tw-gap-2">
+                        <i className="fas fa-phone"></i>
+                        <span className="tw-text-sm">
+                          {props.event.reservationData.phoneNumber}
+                        </span>
+                      </div>
+                      <div className="tw-flex tw-items-center tw-gap-2">
+                        <i className="fas fa-user"></i>
+                        <span className="tw-text-sm">
+                          {props.event.reservationData.employeeName || "N/A"}
+                        </span>
+                      </div>
+                    </div>
                   </>
                 );
               },
@@ -341,8 +400,23 @@ const ResourceDayLineView = () => {
                 event: (props) => {
                   return (
                     <>
-                      <div className="tw-text-md">{props.event.title}</div>
-                      <div className="tw-mt-2 tw-text-md">{"07782138223"}</div>
+                      <div className="tw-flex tw-flex-col tw-gap-1 tw-p-2">
+                        <div className="tw-text-md tw-font-medium ">
+                          {props.event.title}
+                        </div>
+                        <div className="tw-flex tw-items-center tw-gap-2">
+                          <i className="fas fa-phone"></i>
+                          <span className="tw-text-sm">
+                            {props.event.reservationData.phoneNumber}
+                          </span>
+                        </div>
+                        <div className="tw-flex tw-items-center tw-gap-2">
+                          <i className="fas fa-user"></i>
+                          <span className="tw-text-sm">
+                            {props.event.reservationData.employeeName || "N/A"}
+                          </span>
+                        </div>
+                      </div>
                     </>
                   );
                 },

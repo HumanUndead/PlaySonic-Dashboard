@@ -265,7 +265,10 @@ const CalenderReservationListColumns: ReadonlyArray<Column<IReservationData>> =
       ),
       id: "actions",
       Cell: ({ ...props }) => (
-        <CalenderReservationActionCell id={props.data[props.row.index].id} />
+        <CalenderReservationActionCell
+          id={props.data[props.row.index].id}
+          canDelete={!!props.data[props.row.index].employeeName}
+        />
       ),
     },
   ];

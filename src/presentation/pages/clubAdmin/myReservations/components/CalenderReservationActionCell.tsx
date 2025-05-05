@@ -20,9 +20,10 @@ import StatusApproval from "@presentation/helpers/StatusApproval";
 interface Props {
   id: number;
   name?: string;
+  canDelete?: boolean;
 }
 
-const CalenderReservationActionCell: FC<Props> = ({ id, name }) => {
+const CalenderReservationActionCell: FC<Props> = ({ id, name, canDelete }) => {
   const { itemIdForUpdate, setItemIdForUpdate } = useListView();
   const queryClient = useQueryClient();
 
@@ -97,7 +98,7 @@ const CalenderReservationActionCell: FC<Props> = ({ id, name }) => {
         editBtnOnClick={() => {
           setItemIdForUpdate(id);
         }}
-        deleteBtn={false}
+        deleteBtn={canDelete}
         deletBtnOnClick={() => handleDelete()}
         children={<StatusApproval id={id} queryKey={"MyReservations"} />}
       />

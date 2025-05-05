@@ -26,6 +26,7 @@ import { QUERIES } from "@presentation/helpers";
 import { CourtScheduleQueryInstance } from "@app/useCases/courtSchedule";
 import { CourtScheduleUrlEnum } from "@domain/enums/URL/CourtSchedule/CourtScheduleUrls/CourtSchedule";
 import DatePicker from "react-datepicker";
+import "./index.css";
 import "react-datepicker/dist/react-datepicker.css";
 
 interface CalendarEvent {
@@ -39,15 +40,6 @@ interface CalendarEvent {
 }
 
 const localizer = momentLocalizer(moment);
-
-// const statusColors = {
-//   New: "primary", // primary
-//   Approved: "success", // success
-//   Confirmed: "secondary", // secondary
-//   InProgress: "warning", // warning
-//   Finished: "dark", // dark
-//   Cancelled: "danger", // danger
-// };
 
 const statusColors = {
   New: "#40a6dc", // primary
@@ -225,21 +217,6 @@ const ResourceDayLineView = () => {
 
   const defaultView = Views.DAY;
 
-  // const getEventStyle = (event: CalendarEvent) => {
-  //   const status = ReservationStatusEnum[event.status];
-  //   const backgroundColor =
-  //     statusColors[status as keyof typeof statusColors] || "#3699FF";
-
-  //   return {
-  //     style: {
-  //       backgroundColor,
-  //       color: "#FFFFFF",
-  //       borderRadius: "4px",
-  //       border: "none",
-  //     },
-  //   };
-  // };
-
   const onSelectEvent = (event: CalendarEvent) => {
     setIsModalOpen(true);
     setModalTitle(event.title);
@@ -327,17 +304,6 @@ const ResourceDayLineView = () => {
               <CustomKTIcon iconName="arrow-right" className="fs-2" />
             </button>
           </div>
-          {/* <div className="tw-flex tw-flex-wrap tw-gap-4 tw-pr-4 tw-py-2 ">
-            {Object.entries(statusColors).map(([status, color]) => (
-              <div key={status} className="tw-flex tw-items-center tw-gap-2">
-                <div
-                  className={`tw-w-4 tw-h-4 tw-rounded badge-${color}`}
-                  // style={{ backgroundColor: color }}
-                />
-                <span className="tw-text-sm">{status}</span>
-              </div>
-            ))}
-          </div> */}
           <div className="tw-flex tw-flex-wrap tw-gap-4 tw-pr-4 tw-py-2 ">
             {Object.entries(statusColors).map(([status, color]) => (
               <div key={status} className="tw-flex tw-items-center tw-gap-2">
@@ -378,17 +344,23 @@ const ResourceDayLineView = () => {
                         {props.event.title}
                       </div>
                       <div className="tw-flex tw-items-center tw-gap-2">
-                        <i className="fas fa-phone"></i>
+                        <i className="fas fa-phone text-white"></i>
                         <span className="tw-text-sm">
                           {props.event.reservationData.phoneNumber}
                         </span>
                       </div>
                       <div className="tw-flex tw-items-center tw-gap-2">
-                        <i className="fas fa-user"></i>
+                        <i className="fas fa-user text-white"></i>
                         <span className="tw-text-sm">
                           {props.event.reservationData.employeeName || "N/A"}
                         </span>
                       </div>
+                      <div
+                        style={{
+                          height: "24px",
+                          backgroundColor: "white",
+                        }}
+                      />
                     </div>
                   </>
                 );
@@ -399,9 +371,6 @@ const ResourceDayLineView = () => {
             onSelectEvent={onSelectEvent}
             eventPropGetter={getEventStyle}
             selectable
-            style={{
-              height: "100%",
-            }}
           />
           {isOvernight && (
             <Calendar
@@ -440,31 +409,33 @@ const ResourceDayLineView = () => {
                           {props.event.title}
                         </div>
                         <div className="tw-flex tw-items-center tw-gap-2">
-                          <i className="fas fa-phone"></i>
+                          <i className="fas fa-phone text-white"></i>
                           <span className="tw-text-sm">
                             {props.event.reservationData.phoneNumber}
                           </span>
                         </div>
                         <div className="tw-flex tw-items-center tw-gap-2">
-                          <i className="fas fa-user"></i>
+                          <i className="fas fa-user text-white"></i>
                           <span className="tw-text-sm">
                             {props.event.reservationData.employeeName || "N/A"}
                           </span>
                         </div>
+                        <div
+                          style={{
+                            height: "24px",
+                            backgroundColor: "white",
+                          }}
+                        />
                       </div>
                     </>
                   );
                 },
-                resourceHeader: () => null,
               }}
               timeslots={1}
               views={[Views.DAY]}
               onSelectEvent={onSelectEvent}
               eventPropGetter={getEventStyle}
               selectable
-              style={{
-                height: "100%",
-              }}
             />
           )}
         </div>

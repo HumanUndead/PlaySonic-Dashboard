@@ -40,13 +40,22 @@ interface CalendarEvent {
 
 const localizer = momentLocalizer(moment);
 
+// const statusColors = {
+//   New: "primary", // primary
+//   Approved: "success", // success
+//   Confirmed: "secondary", // secondary
+//   InProgress: "warning", // warning
+//   Finished: "dark", // dark
+//   Cancelled: "danger", // danger
+// };
+
 const statusColors = {
-  New: "primary", // primary
-  Approved: "success", // success
-  Confirmed: "secondary", // secondary
-  InProgress: "warning", // warning
-  Finished: "dark", // dark
-  Cancelled: "danger", // danger
+  New: "#40a6dc", // primary
+  Approved: "#17c653", // success
+  Confirmed: "#E4E6EF", // secondary
+  InProgress: "#FFA800", // warning
+  Finished: "#181C32", // dark
+  Cancelled: "#f8285a", // danger
 };
 
 const ResourceDayLineView = () => {
@@ -199,8 +208,6 @@ const ResourceDayLineView = () => {
     }));
   }, [courtsData]);
 
-  const defaultView = Views.DAY;
-
   const getEventStyle = (event: CalendarEvent) => {
     const status = ReservationStatusEnum[event.status];
     const backgroundColor =
@@ -215,6 +222,23 @@ const ResourceDayLineView = () => {
       },
     };
   };
+
+  const defaultView = Views.DAY;
+
+  // const getEventStyle = (event: CalendarEvent) => {
+  //   const status = ReservationStatusEnum[event.status];
+  //   const backgroundColor =
+  //     statusColors[status as keyof typeof statusColors] || "#3699FF";
+
+  //   return {
+  //     style: {
+  //       backgroundColor,
+  //       color: "#FFFFFF",
+  //       borderRadius: "4px",
+  //       border: "none",
+  //     },
+  //   };
+  // };
 
   const onSelectEvent = (event: CalendarEvent) => {
     setIsModalOpen(true);
@@ -303,12 +327,23 @@ const ResourceDayLineView = () => {
               <CustomKTIcon iconName="arrow-right" className="fs-2" />
             </button>
           </div>
-          <div className="tw-flex tw-flex-wrap tw-gap-4 tw-pr-4 tw-py-2 ">
+          {/* <div className="tw-flex tw-flex-wrap tw-gap-4 tw-pr-4 tw-py-2 ">
             {Object.entries(statusColors).map(([status, color]) => (
               <div key={status} className="tw-flex tw-items-center tw-gap-2">
                 <div
                   className={`tw-w-4 tw-h-4 tw-rounded badge-${color}`}
                   // style={{ backgroundColor: color }}
+                />
+                <span className="tw-text-sm">{status}</span>
+              </div>
+            ))}
+          </div> */}
+          <div className="tw-flex tw-flex-wrap tw-gap-4 tw-pr-4 tw-py-2 ">
+            {Object.entries(statusColors).map(([status, color]) => (
+              <div key={status} className="tw-flex tw-items-center tw-gap-2">
+                <div
+                  className="tw-w-4 tw-h-4 tw-rounded"
+                  style={{ backgroundColor: color }}
                 />
                 <span className="tw-text-sm">{status}</span>
               </div>
